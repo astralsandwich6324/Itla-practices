@@ -21,7 +21,7 @@ Administrativo admin1 = new Administrativo();
 Administrator person1 = new Administrator();
 Maestro person2 = new Maestro();
 
-
+/*Jose Manuel Santillan*/
 
 /*Universidad*/
 entity.UniName = "Harvard";
