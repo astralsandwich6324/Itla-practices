@@ -1,4 +1,11 @@
+using Project.Management.Domain;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ProjectManagementWebContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectManagementWebContext") ?? throw new InvalidOperationException("Connection string 'ProjectManagementWebContext' not found.")));
+
 
 // Add services to the container.
 
