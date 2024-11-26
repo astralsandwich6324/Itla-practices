@@ -16,6 +16,6 @@ namespace Project.Management.Domain.Entities
         public char Sex { get; set; }
         public bool Active { get; set; }
 
-        public List<Work> Works { get; set; }
+        public List<Work> Works { get; set; }   
     }
 }
