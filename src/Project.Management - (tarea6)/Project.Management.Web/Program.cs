@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Project.Management.Domain;
+using Project.Management.Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

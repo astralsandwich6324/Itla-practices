@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project.Management.Domain;
-using Project.Management.Domain.Entities;
+using Project.Management.Web.Models.Entities;
 
 
 namespace Project.Management.Web.Controllers
@@ -47,6 +47,7 @@ namespace Project.Management.Web.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
+            
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace Project.Management.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Users users)
+        public async Task<IActionResult> Create(CreateViewModel users)
         {
             if (ModelState.IsValid)
             {
@@ -79,6 +80,9 @@ namespace Project.Management.Web.Controllers
             {
                 return NotFound();
             }
+            var vm = new EditViewModel();
+            vm.Id = users.Id; vm.LastName = users.LastName;
+            vm.Name = users.Name;
             return View(users);
         }
 
@@ -87,7 +91,7 @@ namespace Project.Management.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Users users)
+        public async Task<IActionResult> Edit(int id, ProjectUser users)
         {
             if (id != users.Id)
             {

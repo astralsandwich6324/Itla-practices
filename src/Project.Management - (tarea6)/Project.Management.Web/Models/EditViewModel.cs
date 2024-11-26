@@ -1,7 +1,7 @@
-﻿
+﻿using Project.Management.Web.Models.Entities;
 namespace Project.Management.Web.Models
 {
-    public class CreateViewModel //: ProjectUser
+    public class EditViewModel : ProjectUser
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -9,6 +9,5 @@ namespace Project.Management.Web.Models
         public int Age { get; set; }
         public char Sex { get; set; }
         public bool Active { get; set; }
-        //public List<ProjectUser> Users { get; set; }
     }
 }
