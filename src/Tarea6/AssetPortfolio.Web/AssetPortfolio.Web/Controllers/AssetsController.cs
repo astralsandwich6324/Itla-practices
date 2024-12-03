@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AssetPortfolio.Web.Data;
-using AssetPortfolio.Web.Models.Entities;
+
+using AssetPortfolio.Domain.Entities;
+using AssetPortfolio.Web.Models;
+using AssetPortfolio.Domain;
 
 namespace AssetPortfolio.Web.Controllers
 {
@@ -48,12 +50,13 @@ namespace AssetPortfolio.Web.Controllers
         }
 
         // GET: Assets/Create
-        public IActionResult Create()
+        public IActionResult Create() 
         {
+            var vm = new AssetViewModel();
             ViewData["InvestorId"] = new SelectList(_context.Investor, "Id", "LastName");
             ViewData["PortfolioId"] = new SelectList(_context.Set<Portfolio>(), "Id", "Assets");
             ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "Id", "Id");
-            return View();
+            return View(vm);
         }
 
         // POST: Assets/Create
@@ -61,11 +64,24 @@ namespace AssetPortfolio.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Symbol,Name,Quantity,PurchasePrice,CurrentPrice,Description,StatusId,InvestorId,PortfolioId")] Asset asset)
+        public async Task<IActionResult> Create(AssetViewModel asset)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(asset);
+                var dbAsset = new Asset();
+
+                dbAsset.Id = asset.Id;
+                dbAsset.Symbol = asset.Symbol;
+                dbAsset.Name = asset.Name;
+                dbAsset.Quantity = asset.Quantity;
+                dbAsset.PurchasePrice = asset.PurchasePrice;
+                dbAsset.CurrentPrice = asset.CurrentPrice;
+                dbAsset.Description = asset.Description;
+                dbAsset.StatusId = asset.StatusId;
+                dbAsset.InvestorId = asset.InvestorId;
+                dbAsset.PortfolioId = asset.PortfolioId;
+                
+                _context.Asset.Add(dbAsset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -88,10 +104,22 @@ namespace AssetPortfolio.Web.Controllers
             {
                 return NotFound();
             }
+            var vm = new AssetViewModel();
+
+            vm.Id = asset.Id;
+            vm.Symbol = asset.Symbol;
+            vm.Name = asset.Name;
+            vm.Quantity = asset.Quantity;
+            vm.PurchasePrice = asset.PurchasePrice;
+            vm.CurrentPrice = asset.CurrentPrice;
+            vm.Description = asset.Description;
+            vm.StatusId = asset.StatusId;
+            vm.InvestorId = asset.InvestorId;
+            vm.PortfolioId = asset.PortfolioId;
             ViewData["InvestorId"] = new SelectList(_context.Investor, "Id", "LastName", asset.InvestorId);
             ViewData["PortfolioId"] = new SelectList(_context.Set<Portfolio>(), "Id", "Assets", asset.PortfolioId);
             ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "Id", "Id", asset.StatusId);
-            return View(asset);
+            return View(vm);
         }
 
         // POST: Assets/Edit/5
@@ -99,7 +127,7 @@ namespace AssetPortfolio.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Symbol,Name,Quantity,PurchasePrice,CurrentPrice,Description,StatusId,InvestorId,PortfolioId")] Asset asset)
+        public async Task<IActionResult> Edit(int id, AssetViewModel asset)
         {
             if (id != asset.Id)
             {
@@ -110,7 +138,19 @@ namespace AssetPortfolio.Web.Controllers
             {
                 try
                 {
-                    _context.Update(asset);
+                    var dbAsset = new Asset();
+
+                    dbAsset.Id = asset.Id;
+                    dbAsset.Symbol = asset.Symbol;
+                    dbAsset.Name = asset.Name;
+                    dbAsset.Quantity = asset.Quantity;
+                    dbAsset.PurchasePrice = asset.PurchasePrice;
+                    dbAsset.CurrentPrice = asset.CurrentPrice;
+                    dbAsset.Description = asset.Description;
+                    dbAsset.StatusId = asset.StatusId;
+                    dbAsset.InvestorId = asset.InvestorId;
+                    dbAsset.PortfolioId = asset.PortfolioId;
+                    _context.Asset.Update(dbAsset);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

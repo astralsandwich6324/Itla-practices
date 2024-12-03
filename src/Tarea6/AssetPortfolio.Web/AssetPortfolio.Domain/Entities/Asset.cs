@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AssetPortfolio.Web.Models.Entities
+namespace AssetPortfolio.Domain.Entities
 {
     public class Asset
     {

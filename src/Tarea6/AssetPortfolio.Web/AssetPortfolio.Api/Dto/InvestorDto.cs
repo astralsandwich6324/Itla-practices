@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AssetPortfolio.Web.Models.Entities
+namespace AssetPortfolio.Api.Dto
 {
-    public class Investor
+    public class InvestorDto
     {
         public int Id { get; set; }
-        [Required]
+        //[Required]
         [StringLength(30)]
         public string? Name { get; set; }
-        [Required]
+        //[Required]
         [StringLength(50)]
         public string? LastName { get; set; }
 
@@ -18,9 +18,9 @@ namespace AssetPortfolio.Web.Models.Entities
 
         public DateTime birthdate { get; set; }
 
-        public string Nationality { get; set; }
+        public string? Nationality { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         public int? Salary { get; set; } = null;
     }

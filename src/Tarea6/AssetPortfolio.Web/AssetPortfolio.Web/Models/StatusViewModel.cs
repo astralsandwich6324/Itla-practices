@@ -1,7 +1,8 @@
 ﻿namespace AssetPortfolio.Web.Models
 {
-    public class AssetEditViewModel : AssetViewModel
+    public class StatusViewModel
     {
         public int Id { get; set; }
+        public string Estado { get; set; }
     }
 }

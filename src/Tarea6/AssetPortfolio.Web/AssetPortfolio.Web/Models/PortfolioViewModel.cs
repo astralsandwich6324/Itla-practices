@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AssetPortfolio.Domain.Entities;
 
-namespace AssetPortfolio.Web.Models.Entities
+namespace AssetPortfolio.Web.Models
 {
-    public class Portfolio
+    public class PortfolioViewModel
     {
         public int Id { get; set; }
 

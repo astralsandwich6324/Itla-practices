@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering; 
 using Microsoft.EntityFrameworkCore;
-using AssetPortfolio.Web.Data;
-using AssetPortfolio.Web.Models.Entities;
+
+using AssetPortfolio.Domain.Entities;
 using AssetPortfolio.Web.Models;
+using AssetPortfolio.Domain;
 
 namespace AssetPortfolio.Web.Controllers
 {
@@ -47,8 +48,8 @@ namespace AssetPortfolio.Web.Controllers
         // GET: Investors/Create
         public IActionResult Create()
         {
-            var vm = new InvestorCreateViewModel();
-            return View(vm);
+            var vm = new InvestorViewModel();
+            return View(vm); 
         }
 
         // POST: Investors/Create
@@ -56,7 +57,7 @@ namespace AssetPortfolio.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(InvestorCreateViewModel investor)
+        public async Task<IActionResult> Create(InvestorViewModel investor)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +91,7 @@ namespace AssetPortfolio.Web.Controllers
             {
                 return NotFound();
             }
-            var vm = new InvestorEditViewModel();
+            var vm = new InvestorViewModel();
             vm.Id = investor.Id;
             vm.Name = investor.Name;
             vm.LastName = investor.LastName;
@@ -108,7 +109,7 @@ namespace AssetPortfolio.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, InvestorEditViewModel investor)
+        public async Task<IActionResult> Edit(int id, InvestorViewModel investor)
         {
             if (id != investor.Id)
             {

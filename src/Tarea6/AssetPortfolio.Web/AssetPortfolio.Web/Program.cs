@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using AssetPortfolio.Web.Data;
+
 using AssetPortfolio.Web.Models;
+using AssetPortfolio.Domain;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AssetPortfolioWebContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AssetPortfolioWebContext") ?? throw new InvalidOperationException("Connection string 'AssetPortfolioWebContext' not found.")));

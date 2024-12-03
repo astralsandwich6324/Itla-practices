@@ -1,4 +1,4 @@
-﻿using AssetPortfolio.Web.Models.Entities;
+﻿using AssetPortfolio.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AssetPortfolio.Web.Models
