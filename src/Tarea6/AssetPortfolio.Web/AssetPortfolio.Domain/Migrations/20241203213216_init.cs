@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AssetPortfolio.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class @int : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,8 +37,8 @@ namespace AssetPortfolio.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Assets = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Assets = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     TotalValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
@@ -52,7 +52,7 @@ namespace AssetPortfolio.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,8 +65,8 @@ namespace AssetPortfolio.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Symbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Symbol = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     PurchasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CurrentPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),

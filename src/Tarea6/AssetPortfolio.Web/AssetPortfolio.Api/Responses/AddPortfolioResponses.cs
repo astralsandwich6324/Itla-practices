@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AssetPortfolio.Api.Responses
+namespace AssetPortfolio.Domain.Entities
 {
-    public class AddInvestorResponse
+    public class AddPortfolioResponses
     {
         
         public int Id { get; set; }
+        
     }
 }

@@ -4,6 +4,7 @@ using AssetPortfolio.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetPortfolio.Domain.Migrations
 {
     [DbContext(typeof(AssetPortfolioWebContext))]
-    partial class AssetPortfolioWebContextModelSnapshot : ModelSnapshot
+    [Migration("20241203213216_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,9 +85,6 @@ namespace AssetPortfolio.Domain.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Birthdate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("LastName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -105,6 +105,9 @@ namespace AssetPortfolio.Domain.Migrations
                     b.Property<string>("Sex")
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
+
+                    b.Property<DateTime>("birthdate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

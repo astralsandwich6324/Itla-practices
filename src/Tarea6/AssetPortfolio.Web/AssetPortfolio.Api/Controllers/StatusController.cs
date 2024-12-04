@@ -10,40 +10,34 @@ namespace AssetPortfolio.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class InvestorsController : ControllerBase
+    public class StatusController : ControllerBase
     {
         private readonly AssetPortfolioWebContext _context;
 
-        public InvestorsController(AssetPortfolioWebContext context)
+        public StatusController(AssetPortfolioWebContext context)
         {
             _context = context;
         }
 
-        [HttpGet(nameof(GetAllInvestors))]
-        public async Task<IActionResult> GetAllInvestors()
+        [HttpGet(nameof(GetStatus))]
+        public async Task<IActionResult> GetStatus()
         {
-            var investor = await _context.Investor.ToListAsync();
-            return Ok(investor);
+            var status = await _context.Status.ToListAsync();
+            return Ok(status);
         }
 
-        [HttpPost(nameof(AddInvestors))]
-        public async Task<IActionResult> AddInvestors(AddInvestorsRequest request)
+        [HttpPost(nameof(AddStatus))]
+        public async Task<IActionResult> AddStatus(StatusDto request)
         {
-            var dbInvestor = new Investor();
+            var dbStatus = new Status();
             
-            dbInvestor.Name = request.Name;
-            dbInvestor.LastName = request.LastName;
-            dbInvestor.Age = request.Age;
-            dbInvestor.Sex = request.Sex;
-            dbInvestor.Birthdate = request.birthdate;
-            dbInvestor.Nationality = request.Nationality;
-            dbInvestor.PhoneNumber = request.PhoneNumber;
-            dbInvestor.Salary = request.Salary;
-            _context.Investor.Add(dbInvestor);
+            dbStatus.Estado = request.Estado;
             
+            
+            _context.Status.Add(dbStatus);
             await _context.SaveChangesAsync();
 
-            var response = new AddInvestorResponse { Id = dbInvestor.Id };
+            var response = new StatusDto { Id = dbStatus.Id };
             return Ok(request);
         }
 

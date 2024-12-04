@@ -16,7 +16,7 @@ namespace AssetPortfolio.Web.Models
 
         public char Sex { get; set; }
 
-        public DateTime birthdate { get; set; }
+        public DateTime Birthdate { get; set; }
 
         public string Nationality { get; set; }
 

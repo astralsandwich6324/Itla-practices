@@ -48,35 +48,12 @@ namespace AssetPortfolio.Web.Controllers
         // GET: Investors/Create
         public IActionResult Create()
         {
-            var vm = new InvestorViewModel();
-            return View(vm); 
+           
+            return View(); 
         }
 
-        // POST: Investors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(InvestorViewModel investor)
-        {
-            if (ModelState.IsValid)
-            {
-                var dbInvestor = new Investor();
-                dbInvestor.Id = investor.Id;
-                dbInvestor.Name = investor.Name;
-                dbInvestor.LastName = investor.LastName;
-                dbInvestor.Age = investor.Age;
-                dbInvestor.Sex = investor.Sex;
-                dbInvestor.birthdate = investor.birthdate;
-                dbInvestor.Nationality = investor.Nationality;
-                dbInvestor.PhoneNumber = investor.PhoneNumber;
-                dbInvestor.Salary = investor.Salary;
-                _context.Investor.Add(dbInvestor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(investor);
-        }
+        
+        
 
         // GET: Investors/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -97,7 +74,7 @@ namespace AssetPortfolio.Web.Controllers
             vm.LastName = investor.LastName;
             vm.Age = investor.Age;
             vm.Sex = investor.Sex;
-            vm.birthdate = investor.birthdate;
+            vm.Birthdate = investor.Birthdate;
             vm.Nationality = investor.Nationality;
             vm.PhoneNumber = investor.PhoneNumber;
             vm.Salary = investor.Salary;
@@ -126,7 +103,7 @@ namespace AssetPortfolio.Web.Controllers
                     dbInvestor.LastName = investor.LastName;
                     dbInvestor.Age = investor.Age;
                     dbInvestor.Sex = investor.Sex;
-                    dbInvestor.birthdate = investor.birthdate;
+                    dbInvestor.Birthdate = investor.Birthdate;
                     dbInvestor.Nationality = investor.Nationality;
                     dbInvestor.PhoneNumber = investor.PhoneNumber;
                     dbInvestor.Salary = investor.Salary;

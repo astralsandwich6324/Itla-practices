@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetPortfolio.Domain.Migrations
 {
     [DbContext(typeof(AssetPortfolioWebContext))]
-    [Migration("20241203003013_int")]
-    partial class @int
+    [Migration("20241204041505_KeyDataAnnotationsOnIdDelete")]
+    partial class KeyDataAnnotationsOnIdDelete
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,6 @@ namespace AssetPortfolio.Domain.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -61,8 +60,8 @@ namespace AssetPortfolio.Domain.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Symbol")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
@@ -86,6 +85,9 @@ namespace AssetPortfolio.Domain.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("LastName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -107,9 +109,6 @@ namespace AssetPortfolio.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
-                    b.Property<DateTime>("birthdate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("Investor");
@@ -124,7 +123,6 @@ namespace AssetPortfolio.Domain.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Assets")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -132,7 +130,6 @@ namespace AssetPortfolio.Domain.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -150,7 +147,6 @@ namespace AssetPortfolio.Domain.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Estado")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

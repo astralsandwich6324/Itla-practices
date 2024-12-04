@@ -2,7 +2,7 @@
 
 namespace AssetPortfolio.Api.Responses
 {
-    public class AddInvestorResponse
+    public class AddAssetResponse
     {
         
         public int Id { get; set; }

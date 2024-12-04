@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AssetPortfolio.Domain.Entities;
 
-namespace AssetPortfolio.Domain.Entities
+namespace AssetPortfolio.Api.Requests
 {
-    public class Asset
+    public class AddAssetRequest
     {
-        public int Id { get; set; }
-
         [StringLength(10)]
         public string? Symbol { get; set; }
-        
         [StringLength(30)]
         public string? Name { get; set; }
 
@@ -18,13 +16,13 @@ namespace AssetPortfolio.Domain.Entities
         [StringLength(80)]
         public string? Description { get; set; }
         public int StatusId { get; set; }
-        public Status? Status { get; set; }
+        //public Status? Status { get; set; }
 
         public int InvestorId { get; set; }
-        public Investor? Investor { get; set; }
+        //public Investor? Investor { get; set; }
 
         public int PortfolioId { get; set; }
 
-        public Portfolio? Portfolio { get; set; }
+        //public Portfolio? Portfolio { get; set; }
     }
 }

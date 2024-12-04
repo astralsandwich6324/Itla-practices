@@ -10,40 +10,35 @@ namespace AssetPortfolio.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class InvestorsController : ControllerBase
+    public class PortfolioController : ControllerBase
     {
         private readonly AssetPortfolioWebContext _context;
 
-        public InvestorsController(AssetPortfolioWebContext context)
+        public PortfolioController(AssetPortfolioWebContext context)
         {
             _context = context;
         }
 
-        [HttpGet(nameof(GetAllInvestors))]
-        public async Task<IActionResult> GetAllInvestors()
+        [HttpGet(nameof(GetAllPortfolios))]
+        public async Task<IActionResult> GetAllPortfolios()
         {
-            var investor = await _context.Investor.ToListAsync();
-            return Ok(investor);
+            var portfolios = await _context.Portfolio.ToListAsync();
+            return Ok(portfolios);
         }
 
-        [HttpPost(nameof(AddInvestors))]
-        public async Task<IActionResult> AddInvestors(AddInvestorsRequest request)
+        [HttpPost(nameof(AddPortfolios))]
+        public async Task<IActionResult> AddPortfolios(AddPortfolioRequest request)
         {
-            var dbInvestor = new Investor();
+            var dbPortfolio = new Portfolio();
             
-            dbInvestor.Name = request.Name;
-            dbInvestor.LastName = request.LastName;
-            dbInvestor.Age = request.Age;
-            dbInvestor.Sex = request.Sex;
-            dbInvestor.Birthdate = request.birthdate;
-            dbInvestor.Nationality = request.Nationality;
-            dbInvestor.PhoneNumber = request.PhoneNumber;
-            dbInvestor.Salary = request.Salary;
-            _context.Investor.Add(dbInvestor);
+            dbPortfolio.UserName = request.UserName;
+            dbPortfolio.Assets = request.Assets;
+            dbPortfolio.TotalValue = request.TotalValue;
             
+            _context.Portfolio.Add(dbPortfolio);
             await _context.SaveChangesAsync();
 
-            var response = new AddInvestorResponse { Id = dbInvestor.Id };
+            var response = new AddPortfolioResponses { Id = dbPortfolio.Id };
             return Ok(request);
         }
 

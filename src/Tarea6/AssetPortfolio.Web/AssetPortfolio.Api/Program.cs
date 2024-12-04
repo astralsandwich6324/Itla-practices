@@ -3,7 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowOriginForm",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7176")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
 
 builder.Services.AddDbContext<AssetPortfolioWebContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AssetPortfolioWebContext") ?? throw new InvalidOperationException("Connection string 'AssetPortfolioWebContext' not found.")));
@@ -27,5 +36,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors("\"AllowOriginForm");
 app.Run();

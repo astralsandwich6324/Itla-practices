@@ -80,7 +80,7 @@ namespace AssetPortfolio.Web.Controllers
                 dbAsset.StatusId = asset.StatusId;
                 dbAsset.InvestorId = asset.InvestorId;
                 dbAsset.PortfolioId = asset.PortfolioId;
-                
+
                 _context.Asset.Add(dbAsset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -147,9 +147,9 @@ namespace AssetPortfolio.Web.Controllers
                     dbAsset.PurchasePrice = asset.PurchasePrice;
                     dbAsset.CurrentPrice = asset.CurrentPrice;
                     dbAsset.Description = asset.Description;
-                    dbAsset.StatusId = asset.StatusId;
-                    dbAsset.InvestorId = asset.InvestorId;
-                    dbAsset.PortfolioId = asset.PortfolioId;
+                    //dbAsset.StatusId = asset.StatusId;
+                    //dbAsset.InvestorId = asset.InvestorId;
+                    //dbAsset.PortfolioId = asset.PortfolioId;
                     _context.Asset.Update(dbAsset);
                     await _context.SaveChangesAsync();
                 }
@@ -166,9 +166,9 @@ namespace AssetPortfolio.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InvestorId"] = new SelectList(_context.Investor, "Id", "LastName", asset.InvestorId);
-            ViewData["PortfolioId"] = new SelectList(_context.Set<Portfolio>(), "Id", "Assets", asset.PortfolioId);
-            ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "Id", "Id", asset.StatusId);
+            //ViewData["InvestorId"] = new SelectList(_context.Investor, "Id", "LastName", asset.InvestorId);
+            //ViewData["PortfolioId"] = new SelectList(_context.Set<Portfolio>(), "Id", "Assets", asset.PortfolioId);
+            //ViewData["StatusId"] = new SelectList(_context.Set<Status>(), "Id", "Id", asset.StatusId);
             return View(asset);
         }
 
