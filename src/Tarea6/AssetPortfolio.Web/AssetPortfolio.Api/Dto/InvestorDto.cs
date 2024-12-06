@@ -12,7 +12,7 @@ namespace AssetPortfolio.Api.Dto
 
         public int? Age { get; set; } = null;
 
-        public char Sex { get; set; }
+        public string? Sex { get; set; }
 
         public DateTime birthdate { get; set; }
 

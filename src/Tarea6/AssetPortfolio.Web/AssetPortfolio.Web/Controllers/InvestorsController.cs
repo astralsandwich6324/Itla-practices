@@ -24,7 +24,7 @@ namespace AssetPortfolio.Web.Controllers
         // GET: Investors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Investor.ToListAsync());
+            return View(/*await _context.Investor.ToListAsync()*/);
         }
 
         // GET: Investors/Details/5

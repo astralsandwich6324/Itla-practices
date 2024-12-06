@@ -14,13 +14,13 @@ namespace AssetPortfolio.Web.Models
 
         public int? Age { get; set; } = null;
 
-        public char Sex { get; set; }
+        public string? Sex { get; set; }
 
         public DateTime Birthdate { get; set; }
 
-        public string Nationality { get; set; }
+        public string? Nationality { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         public int? Salary { get; set; } = null;
     }

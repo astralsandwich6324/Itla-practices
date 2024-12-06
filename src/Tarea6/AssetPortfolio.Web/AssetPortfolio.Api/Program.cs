@@ -8,7 +8,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "AllowOriginForm",
         policy =>
         {
-            policy.WithOrigins("https://localhost:7176")
+            policy.WithOrigins("https://localhost:7071")
             .AllowAnyMethod()
             .AllowAnyHeader();
         });
@@ -36,5 +36,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors("\"AllowOriginForm");
+app.UseCors("AllowOriginForm");
 app.Run();

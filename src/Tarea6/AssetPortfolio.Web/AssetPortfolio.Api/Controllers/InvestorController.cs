@@ -5,6 +5,7 @@ using AssetPortfolio.Api.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AssetPortfolio.Api.Responses;
+using Azure.Core;
 
 namespace AssetPortfolio.Api.Controllers
 {
@@ -48,27 +49,64 @@ namespace AssetPortfolio.Api.Controllers
         }
 
 
-        //[HttpPut(nameof(DeleteInvestors))]
-        //public async Task<IActionResult> DeleteInvestors(AddInvestorsRequest request)
-        //{
-        //    var dbInvestor = new Investor();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateInvestor(int id, AddInvestorsRequest updateRequest)
+        {
+            var existingInvestor = await _context.Investor.FindAsync(id);
+            if (existingInvestor == null)
+            {
+                return NotFound("Usuario no encontrado.");
+            }
 
-        //    dbInvestor.Name = request.Name;
-        //    dbInvestor.LastName = request.LastName;
-        //    dbInvestor.Age = request.Age;
-        //    dbInvestor.Sex = request.Sex;
-        //    dbInvestor.birthdate = request.birthdate;
-        //    dbInvestor.Nationality = request.Nationality;
-        //    dbInvestor.PhoneNumber = request.PhoneNumber;
-        //    dbInvestor.Salary = request.Salary;
-        //    _context.Investor.Add(dbInvestor);
-        //    await _context.SaveChangesAsync();
+            
+            existingInvestor.Name = updateRequest.Name;
+            existingInvestor.LastName = updateRequest.LastName;
+            existingInvestor.Age = updateRequest.Age;
+            existingInvestor.Sex = updateRequest.Sex;
+            existingInvestor.Birthdate = updateRequest.birthdate;
+            existingInvestor.Nationality = updateRequest.Nationality;
+            existingInvestor.PhoneNumber = updateRequest.PhoneNumber;
+            existingInvestor.Salary = updateRequest.Salary;
 
-        //    var response = new AddInvestorResponse { Id = dbInvestor.Id };
-        //    return Ok(request);
-        //}
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(existingInvestor);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, "Error al actualizar el usuario.");
+            }
+        }
+
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteInvestor(int id)
+        {
+            var investor = await _context.Investor.FindAsync(id);
+            if (investor == null)
+            {
+                return NotFound("Usuario no encontrado.");
+            }
+
+            try
+            {
+                _context.Investor.Remove(investor);
+                await _context.SaveChangesAsync();
+                return Ok("Usuario eliminado correctamente.");
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest("No se puede eliminar el usuario porque tiene datos relacionados.");
+            }
+        }
 
 
 
     }
+
+
+
 }
+
