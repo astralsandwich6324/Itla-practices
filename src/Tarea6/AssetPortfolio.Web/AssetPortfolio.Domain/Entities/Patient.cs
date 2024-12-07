@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DentalClinic.Domain.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace DentalClinic.Domain.Entities
 {
-    public class Patient
+    public class Patient : BaseEntity
     {
-        public int Id { get; set; } 
+         
         public string? Name { get; set; }
         public string? LastName { get; set; }
         public string? PhoneNumber { get; set; }

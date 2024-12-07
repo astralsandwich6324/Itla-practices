@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DentalClinic.Domain.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace DentalClinic.Domain.Entities
 {
-    public class Appointment
+    public class Appointment : BaseEntity
     {
-        public int Id { get; set; } 
+         
         public DateTime? FechaHora { get; set; }
         public string? Estado { get; set; } // Ejemplo: "Pendiente", "Realizada", "Cancelada"
 
