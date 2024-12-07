@@ -1,4 +1,4 @@
-namespace AssetPortfolio.Web.Models
+namespace DentalClinic.Web.Models
 {
     public class ErrorViewModel
     {

@@ -1,0 +1,94 @@
+﻿<h2>Crear Facturas</h2>
+
+<form>
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Fecha</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="fe" type="date" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Total</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="total" type="number" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Metodo de pago</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="mtdp" type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Id del paciente</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="pcid" type="number" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="addBillButton" class="btn btn-primary">
+        Guardar
+    </button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#addBillButton').click(function (e) {
+                e.preventDefault();
+
+                var newDentist = {
+                    FechaEmision: $('#fe').val(),
+                    Total: $('#total').val(),
+                    MetodoPago: $('#mtdp').val(),
+                    PacienteId: $('#pcid').val()
+            
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Bill/AddBills',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newDentist),
+                    success: function (data) {
+                        alert('Bill added successfully with ID: ' + data.id);
+                        window.location.href = 'Index';
+                    },
+                    error: function (error) {
+                        alert('Error al agregar. Verifica los datos.');
+                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+

@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
-using AssetPortfolio.Web.Models;
-using AssetPortfolio.Domain;
+using DentalClinic.Domain;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<AssetPortfolioWebContext>(options =>
+builder.Services.AddDbContext<DentalClinicWebContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AssetPortfolioWebContext") ?? throw new InvalidOperationException("Connection string 'AssetPortfolioWebContext' not found.")));
 
 // Add services to the container.

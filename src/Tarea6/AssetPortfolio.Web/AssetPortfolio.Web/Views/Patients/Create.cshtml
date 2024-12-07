@@ -1,0 +1,127 @@
+﻿<h2>Registrar Registrar Pacientes</h2>
+
+<form>
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Nombre</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="name" type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Apellido</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="lastname" type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Telefono</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="phoneNumber" type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Correo</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="email" type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Fecha de nacimiento</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="birthdate" type="date" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="control-label">Direccion</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" id="direccion" type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <button id="addPatientButton" class="btn btn-primary">
+        Guardar
+    </button>
+</form>
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#addPatientButton').click(function (e) {
+                e.preventDefault();
+
+                var newPatient = {
+                    Name: $('#name').val(),
+                    LastName: $('#lastname').val(),
+                    PhoneNumber: $('#phoneNumber').val(),
+                    Email: $('#email').val(),
+                    Birthdate: $('#birthdate').val(),
+                    Direccion: $('#direccion').val()
+                    
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Patient/AddPatients',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newPatient),
+                    success: function (data) {
+                        alert('Patient added successfully with ID: ' + data.id);
+                        window.location.href = 'Index';
+                    },
+                    error: function (error) {
+                        alert('Error al agregar el Paciente. Verifica los datos.');
+                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
+

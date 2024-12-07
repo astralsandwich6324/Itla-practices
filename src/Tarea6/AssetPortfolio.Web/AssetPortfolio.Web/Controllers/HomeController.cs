@@ -1,4 +1,4 @@
-using AssetPortfolio.Web.Models;
+using DentalClinic.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
