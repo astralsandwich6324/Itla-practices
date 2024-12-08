@@ -1,0 +1,96 @@
+﻿<div class="container">
+    <h1>Editar Facturas</h1>
+    <form id="BillForm">
+        <div class="form-control mt-2">
+            <label for="fe" class="form-label">Fecha</label>
+            <input class="form-control" id="fe" name="fe" type="text" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="total" class="form-label">Total</label>
+            <input class="form-control" id="total" name="total" type="number" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="escp" class="form-label">Metodo de pago</label>
+            <input class="form-control" id="medp" name="medp" type="text" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="pacienteId" class="form-label">Id del Paciente</label>
+            <input class="form-control" id="pacienteId" name="pacienteId" type="number" required />
+        </div>
+
+        
+        <button id="editBillButton" type="submit" class="btn btn-warning">Editar</button>
+           
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const BillId = urlParams.get('BillId');
+
+
+            if (!BillId) {
+                alert("No se proporcionó un ID válido.");
+                return;
+            }
+
+
+            function loadBill(BillId) {
+                $.ajax({
+                    url: 'https://localhost:7176/Bill/GetBill/' + BillId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#fe').val(data.fechaEmision);
+                        $('#total').val(data.total);
+                        $('#medp').val(data.metodoPago);
+                        $('#pacienteId').val(data.pacienteId);
+                        
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al cargar los datos:', error);
+                        alert('No se pudieron cargar los datos.');
+                    }
+                });
+            }
+
+
+            loadBill(BillId);
+
+
+            $('#BillForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var BillData = {
+                    id: BillId,
+                    fechaEmision: $('#fe').val(),
+                    total: $('#total').val(),
+                    metodoPago: $('#medp').val(),
+                    pacienteId: $('#pacienteId').val()
+                    
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Bill/EditBill/' + BillId,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(BillData),
+                    success: function (response) {
+                        alert('Editado con éxito');
+                        window.location.href = 'https://localhost:7071/Bills/Index';
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al editar:', error);
+                        alert('No se pudo editar. Por favor, intente nuevamente.');
+                    }
+                });
+            });
+        });
+    </script>
+}

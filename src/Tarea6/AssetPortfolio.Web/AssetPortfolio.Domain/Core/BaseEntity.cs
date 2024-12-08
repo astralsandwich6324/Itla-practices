@@ -10,13 +10,13 @@ namespace DentalClinic.Domain.Core
     {
         public int Id { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; } = null;
 
-        public DateTime UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; } = null;
 
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; } = null;
 
-        public string UpdateBy { get; set; }
+        public string? UpdateBy { get; set; } = null;
     }
 
 

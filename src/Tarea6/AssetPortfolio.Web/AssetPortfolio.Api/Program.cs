@@ -1,4 +1,5 @@
 using DentalClinic.Domain;
+using DentalClinic.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,0 +1,109 @@
+﻿ <div class="container">
+        <h1>Editar Pacientes</h1>
+        <form id="patientForm">
+        <div class="form-control mt-2">
+            <label for="name" class="form-label">Nombre</label>
+            <input class="form-control" id="name" name="name" type="text" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="lastname" class="form-label">Apellido</label>
+            <input class="form-control" id="lastname" name="lastname" type="text" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="phoneNumber" class="form-label">Teléfono</label>
+            <input class="form-control" id="phoneNumber" name="phoneNumber" type="tel" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="email" class="form-label">Correo</label>
+            <input class="form-control" id="email" name="email" type="email" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="birthdate" class="form-label">Fecha de nacimiento</label>
+            <input class="form-control" id="birthdate" name="birthdate" type="date" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input class="form-control" id="direccion" name="direccion" type="text" required />
+        </div>
+
+
+            
+                    <button id="editpatientButton" type="submit" class="btn btn-warning mt-2">Editar Paciente</button>
+                
+        </form>
+    </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('PatientId');
+
+            
+            if (!patientId) {
+                alert("No se proporcionó un ID de paciente válido.");
+                return;
+            }
+
+            
+            function loadPatient(patientId) {
+                $.ajax({
+                    url: 'https://localhost:7176/Patient/GetPatient/' + patientId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#name').val(data.name);
+                        $('#lastname').val(data.lastName);
+                        $('#phoneNumber').val(data.phoneNumber);
+                        $('#email').val(data.email);
+                        $('#birthdate').val(data.birthDate ? data.birthDate.split('T')[0] : '');
+                        $('#direccion').val(data.address);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al cargar los datos:', error);
+                        alert('No se pudieron cargar los datos del paciente.');
+                    }
+                });
+            }
+
+            
+            loadPatient(patientId);
+
+            
+            $('#patientForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var patientData = {
+                    id: patientId,
+                    name: $('#name').val(),
+                    lastName: $('#lastname').val(),
+                    phoneNumber: $('#phoneNumber').val(),
+                    email: $('#email').val(),
+                    birthDate: $('#birthdate').val(),
+                    address: $('#direccion').val()
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Patient/EditPatient/' + patientId,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(patientData),
+                    success: function (response) {
+                        alert('Paciente editado con éxito');
+                        window.location.href = 'https://localhost:7071/Patients/Index';
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al editar paciente:', error);
+                        alert('No se pudo editar el paciente. Por favor, intente nuevamente.');
+                    }
+                });
+            });
+        });
+    </script>
+}
+    

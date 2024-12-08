@@ -1,0 +1,67 @@
+﻿<h2>Crear Cita</h2>
+
+<form>
+    
+    <div class="form-group mt-2">
+         <label class="control-label">Fecha y Hora</label>
+         <input class="form-control" id="fechaHora" type="datetime-local" />
+    </div>
+
+    <div class="form-group mt-2">
+        <label class="control-label">Estado</label>
+        <input class="form-control" id="estado" type="text" />
+    </div>
+    
+    <div class="form-group mt-2">
+        <label class="control-label">Id del Paciente</label>
+        <input class="form-control" id="pacienteId" type="number" />
+    </div>
+
+    <div class="form-group mt-2">
+        <label class="control-label">Id del Dentista</label>
+        <input class="form-control" id="dentistaId" type="number" />
+    </div>
+
+    <div class="form-group mt-2">
+        <label class="control-label">Id del Tratamiento</label>
+        <input class="form-control" id="tratamientoId" type="number" />
+    </div>
+    
+
+    <button id="addAppointmentButton" class="btn btn-success">
+        Guardar
+    </button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#addAppointmentButton').click(function (e) {
+                e.preventDefault();
+
+                var newAppointment = {
+                    FechaHora: $('#fechaHora').val(),
+                    Estado: $('#estado').val(),
+                    PacienteId: $('#pacienteId').val(),
+                    DentistaId: $('#dentistaId').val(),
+                    TratamientoId: $('#tratamientoId').val()
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Appointment/AddAppointment',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newAppointment),
+                    success: function (data) {
+                        alert('Cita añadida exitosamente con ID: ' + data.id);
+                        window.location.href = 'Index';
+                    },
+                    error: function (error) {
+                        alert('Error al agregar. Verifica los datos.');
+                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,74 @@
+﻿<h2>Registrar Medicos Dentitas</h2>
+
+<form>
+    <div class="form-control mt-2">
+        <label class="control-label">Nombre</label>
+        <input class="form-control" id="name" type="text" />
+    </div>
+
+    <div class="form-control mt-2">
+        <label class="control-label">Apellido</label>
+        <input class="form-control" id="lastname" type="text" />
+    </div>
+
+    <div class="form-control mt-2">
+        <label class="control-label">Especialidad</label>
+        <input class="form-control" id="escp" type="text" />
+    </div>
+
+    <div class="form-control mt-2">
+        <label class="control-label">Telefono</label>
+        <input class="form-control" id="tel" type="text" />
+    </div>
+
+    <div class="form-control mt-2">
+        <label class="control-label">Correo Electronico</label>
+        <input class="form-control" id="email" type="text" />
+    </div>
+
+
+
+    <button id="addDentistButton" class="btn btn-primary mt-2">
+        Guardar
+    </button>
+</form>
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#addDentistButton').click(function (e) {
+                e.preventDefault();
+
+                var newDentist = {
+                    Nombre: $('#name').val(),
+                    Apellido: $('#lastname').val(),
+                    Especialidad: $('#escp').val(),
+                    Telefono: $('#tel').val(),
+                    CorreoElectronico: $('#email').val()
+                    
+
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Dentist/AddDentist',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newDentist),
+                    success: function (data) {
+                        alert('Dentist added successfully with ID: ' + data.id);
+                        window.location.href = 'Index';
+                    },
+                    error: function (error) {
+                        alert('Error al agregar el Doctor. Verifica los datos.');
+                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
