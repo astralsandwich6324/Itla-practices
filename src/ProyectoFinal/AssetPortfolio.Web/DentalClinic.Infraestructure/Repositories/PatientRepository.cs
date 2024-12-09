@@ -21,9 +21,9 @@ namespace DentalClinic.Infraestructure.Repositories
             _context = context;
         }
 
-        public async Task<List<PatientModel>> GetPatient()
+        public async Task<List<PatientDto>> GetPatient()
         {
-            var patients = new List<PatientModel>();
+            var patients = new List<PatientDto>();
             var patientDb = await _context.Patient.ToListAsync();
             if (!patientDb.Any())
             {
@@ -32,8 +32,9 @@ namespace DentalClinic.Infraestructure.Repositories
             }
             foreach(var patient in patientDb)
             {
-                patients.Add(new PatientModel
+                patients.Add(new PatientDto
                 {
+                    Id = patient.Id,
                     Name = patient.Name,
                     LastName = patient.LastName,
                     PhoneNumber = patient.PhoneNumber,
@@ -46,16 +47,16 @@ namespace DentalClinic.Infraestructure.Repositories
             return patients;
         }
 
-        public async Task<PatientModel> GetPatientById(int id)
+        public async Task<PatientDto> GetPatientById(int id)
         {
-            var patientModel = new PatientModel();
+            var patientModel = new PatientDto();
             var patientDb = await _context.Patient.FindAsync(id);
             if (patientDb == null) 
             {
                  throw new Exception("Patient not found");
                     
             }
-            
+            patientModel.Id = patientDb.Id;
             patientModel.Name = patientDb.Name;
             patientModel.LastName = patientDb.LastName;
             patientModel.PhoneNumber = patientDb.PhoneNumber;
@@ -69,7 +70,7 @@ namespace DentalClinic.Infraestructure.Repositories
         {
             var dbpatients = new Patient();
 
-            
+            dbpatients.Id = request.Id;
             dbpatients.Name = request.Name;
             dbpatients.LastName = request.LastName;
             dbpatients.PhoneNumber = request.PhoneNumber;

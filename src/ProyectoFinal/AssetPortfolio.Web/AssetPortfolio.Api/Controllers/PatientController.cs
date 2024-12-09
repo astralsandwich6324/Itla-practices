@@ -32,7 +32,7 @@ namespace DentalClinic.Api.Controllers
         }
 
         [HttpGet("GetPatient/{id}")]
-        public async Task<ActionResult<PatientModel>> GetPatientById(int id)
+        public async Task<ActionResult<PatientDto>> GetPatientById(int id)
         {
             var patient = await _repository.GetPatientById(id);
             if (patient == null)
@@ -53,7 +53,7 @@ namespace DentalClinic.Api.Controllers
 
 
         [HttpPut("EditPatient/{id}")]
-        public async Task<IActionResult> UpdatePatient(int id, PatientDto request)
+        public async Task<ActionResult<PatientDto>> UpdatePatient(int id, PatientDto request)
         {
             if(request.Id != id)
             {
@@ -71,7 +71,7 @@ namespace DentalClinic.Api.Controllers
         }
 
         [HttpDelete("DeletePatient/{id}")]
-        public async Task<IActionResult> DeletePantient(int id, PatientDto request)
+        public async Task<ActionResult<PatientDto>> DeletePantient(int id, PatientDto request)
         {
             if (request.Id != id)
             {
