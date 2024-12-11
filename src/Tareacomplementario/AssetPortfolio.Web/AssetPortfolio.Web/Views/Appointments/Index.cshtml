@@ -1,0 +1,85 @@
+﻿<h1>Citas</h1>
+
+<a class="btn btn-primary" id="addAppointmentButton">Agregar</a>
+<table class="table mt-2">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Fecha y Hora</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Id del Paciente</th>
+            <th scope="col" >Id del Dentista</th>
+            <th scope="col">Id del Tratamiento</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="AppointmentTableBody">
+        <tr><td colspan="7">No hay registros</td></tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadAppointments();
+
+            $('#addAppointmentButton').click(function () {
+                window.location.href = 'https://localhost:7071/Appointments/Create';
+            });
+
+            $(document).on('click', '.delete-appointment', function () {
+                var appointmentId = $(this).data('id');
+                if (confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
+                    $.ajax({
+                        url: 'https://localhost:7176/Appointment/DeleteAppointment/' + appointmentId,
+                        type: 'DELETE',
+                        success: function () {
+                            alert('Cita eliminada con éxito');
+                            loadAppointments();
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                }
+            });
+
+            $(document).on('click', '.edit-appointment', function () {
+                var appointmentId = $(this).data('id');
+                window.location.href = 'https://localhost:7071/Appointments/Edit?AppointmentId=' + appointmentId;
+            });
+        });
+
+        function loadAppointments() {
+            $.ajax({
+                url: 'https://localhost:7176/Appointment/GetAllAppointments',
+                type: 'GET',
+                success: function (data) {
+                    var tableBody = '';
+                    if (data.length === 0) {
+                        tableBody = '<tr><td colspan="7">No hay registros</td></tr>';
+                    } else {
+                        $.each(data, function (index, appointment) {
+                            tableBody += '<tr>' +
+                                '<td>' + appointment.id + '</td>' +
+                                '<td>' + appointment.fechaHora + '</td>' +
+                                '<td>' + appointment.estado + '</td>' +
+                                '<td>' + appointment.pacienteId + '</td>' +
+                                '<td>' + appointment.dentistaId + '</td>' +
+                                '<td>' + appointment.tratamientoId + '</td>' +
+                                '<td>' +
+                                '<a class="btn btn-warning edit-appointment" data-id="' + appointment.id + '">Editar</a> ' +
+                                '<button class="btn btn-danger delete-appointment" data-id="' + appointment.id + '">Eliminar</button>' +
+                                '</td>' +
+                                '</tr>';
+                        });
+                    }
+                    $('#AppointmentTableBody').html(tableBody);
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
+        }
+    </script>
+}

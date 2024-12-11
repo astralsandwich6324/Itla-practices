@@ -1,0 +1,98 @@
+﻿<div class="container">
+    <h1>Editar Cita</h1>
+    <form id="AppointmentForm">
+
+        <div class="form-group mt-2">
+            <label for="fechaHora" class="form-label">Fecha y Hora</label>
+            <input class="form-control" id="fechaHora" name="fechaHora" type="datetime-local" required />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="estado" class="form-label">Estado</label>
+            <input class="form-control" id="estado" name="estado" type="text" required />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="pacienteId" class="form-label">Id del Paciente</label>
+            <input class="form-control" id="pacienteId" name="pacienteId" type="number" required />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="dentistaId" class="form-label">Id del Dentista</label>
+            <input class="form-control" id="dentistaId" name="dentistaId" type="number" required />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="tratamientoId" class="form-label">Id del Tratamiento</label>
+            <input class="form-control" id="tratamientoId" name="tratamientoId" type="number" required />
+        </div>
+
+            
+        <button id="editAppointmentButton" type="submit" class="btn btn-warning mt-2">Editar</button>
+            
+        
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const appointmentId = urlParams.get('AppointmentId');
+
+            if (!appointmentId) {
+                alert("No se proporcionó un ID válido.");
+                return;
+            }
+
+            function loadAppointment(appointmentId) {
+                $.ajax({
+                    url: 'https://localhost:7176/Appointment/GetAppointment/' + appointmentId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#fechaHora').val(data.fechaHora);
+                        $('#estado').val(data.estado);
+                        $('#pacienteId').val(data.pacienteId);
+                        $('#dentistaId').val(data.dentistaId);
+                        $('#tratamientoId').val(data.tratamientoId);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al cargar los datos:', error);
+                        alert('No se pudieron cargar los datos.');
+                    }
+                });
+            }
+
+            loadAppointment(appointmentId);
+
+            $('#AppointmentForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var appointmentData = {
+                    id: appointmentId,
+                    fechaHora: $('#fechaHora').val(),
+                    estado: $('#estado').val(),
+                    pacienteId: $('#pacienteId').val(),
+                    dentistaId: $('#dentistaId').val(),
+                    tratamientoId: $('#tratamientoId').val()
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Appointment/EditAppointment/' + appointmentId,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(appointmentData),
+                    success: function (response) {
+                        alert('Cita editada con éxito');
+                        window.location.href = 'https://localhost:7071/Appointments/Index';
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al editar:', error);
+                        alert('No se pudo editar. Por favor, intente nuevamente.');
+                    }
+                });
+            });
+        });
+    </script>
+}

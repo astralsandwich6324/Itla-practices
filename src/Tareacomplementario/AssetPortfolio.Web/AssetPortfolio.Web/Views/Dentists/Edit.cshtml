@@ -1,0 +1,100 @@
+﻿<div class="container">
+    <h1>Editar Dentistas</h1>
+    <form id="DentistForm">
+        <div class="form-control mt-2">
+            <label for="name" class="form-label">Nombre</label>
+            <input class="form-control" id="name" name="name" type="text" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="lastname" class="form-label">Apellido</label>
+            <input class="form-control" id="lastname" name="lastname" type="text" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="escp" class="form-label">Especialidad</label>
+            <input class="form-control" id="escp" name="escp" type="text" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="tel" class="form-label">Telefono</label>
+            <input class="form-control" id="tel" name="tel" type="tel" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="tel" class="form-label">Correo</label>
+            <input class="form-control" id="email" name="email" type="text" required />
+        </div>
+
+            <button id="editpatientButton" type="submit" class="btn btn-warning mt-2">Editar Dentista</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const DentistId = urlParams.get('DentistId');
+
+            
+            if (!DentistId) {
+                alert("No se proporcionó un ID de Dentista válido.");
+                return;
+            }
+
+            
+            function loadDentist(DentistId) {
+                $.ajax({
+                    url: 'https://localhost:7176/Dentist/GetDentist/' + DentistId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#name').val(data.nombre);
+                        $('#lastname').val(data.apellido);
+                        $('#escp').val(data.especialidad);
+                        $('#tel').val(data.telefono);
+                        $('#email').val(data.correoElectronico);
+                        
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al cargar los datos:', error);
+                        alert('No se pudieron cargar los datos del Doctor.');
+                    }
+                });
+            }
+
+            
+            loadDentist(DentistId);
+
+            
+            $('#DentistForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var DentistData = {
+                    id: DentistId,
+                    nombre: $('#name').val(),
+                    apellido: $('#lastname').val(),
+                    especialidad: $('#escp').val(),
+                    telefono: $('#tel').val(),
+                    correoElectronico: $('#email').val()
+                    
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Dentist/EditDentist/' + DentistId,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(DentistData),
+                    success: function (response) {
+                        alert('Paciente editado con éxito');
+                        window.location.href = 'https://localhost:7071/Dentists/Index';
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al editar el Doctor:', error);
+                        alert('No se pudo editar el Doctor. Por favor, intente nuevamente.');
+                    }
+                });
+            });
+        });
+    </script>
+}

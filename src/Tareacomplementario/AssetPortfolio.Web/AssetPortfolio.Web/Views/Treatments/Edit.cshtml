@@ -1,0 +1,83 @@
+﻿<div class="container">
+    <h1>Editar Tratamiento</h1>
+    <form id="TreatmentForm">
+        <div class="form-control mt-2">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input class="form-control" id="nombre" name="nombre" type="text" required />
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+        </div>
+
+        <div class="form-control mt-2">
+            <label for="costo" class="form-label">Costo</label>
+            <input class="form-control" id="costo" name="costo" type="number" step="0.01" required />
+        </div>
+
+
+        
+                <button id="editTreatmentButton" type="submit" class="btn btn-warning mt-2">Editar</button>
+            
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const TreatmentId = urlParams.get('TreatmentId');
+
+            if (!TreatmentId) {
+                alert("No se proporcionó un ID válido.");
+                return;
+            }
+
+            function loadTreatment(TreatmentId) {
+                $.ajax({
+                    url: 'https://localhost:7176/Treatment/GetTreatment/' + TreatmentId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#nombre').val(data.nombre);
+                        $('#descripcion').val(data.descripcion);
+                        $('#costo').val(data.costo);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al cargar los datos:', error);
+                        alert('No se pudieron cargar los datos del tratamiento.');
+                    }
+                });
+            }
+
+            loadTreatment(TreatmentId);
+
+            $('#TreatmentForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var TreatmentData = {
+                    id: TreatmentId,
+                    nombre: $('#nombre').val(),
+                    descripcion: $('#descripcion').val(),
+                    costo: parseFloat($('#costo').val())
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Treatment/EditTreatment/' + TreatmentId,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(TreatmentData),
+                    success: function (response) {
+                        alert('Tratamiento editado con éxito');
+                        window.location.href = 'https://localhost:7071/Treatments/Index';
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al editar:', error);
+                        alert('No se pudo editar el tratamiento. Por favor, intente nuevamente.');
+                    }
+                });
+            });
+        });
+    </script>
+}

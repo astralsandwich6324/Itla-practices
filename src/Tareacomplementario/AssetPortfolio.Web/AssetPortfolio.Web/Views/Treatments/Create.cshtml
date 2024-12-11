@@ -1,0 +1,54 @@
+﻿<h2>Crear Tratamiento</h2>
+
+<form>
+    <div class="form-control mt-2">
+        <label class="control-label">Nombre</label>
+        <input class="form-control" id="nombre" type="text" />
+    </div>
+
+    <div class="form-control mt-2">
+        <label class="control-label">Descripción</label>
+        <textarea class="form-control" id="descripcion"></textarea>
+    </div>
+
+    <div class="form-control mt-2">
+        <label class="control-label">Costo</label>
+        <input class="form-control" id="costo" type="number" step="0.01" />
+    </div>
+
+
+    <button id="addTreatmentButton" class="btn btn-success mt-2">
+        Guardar
+    </button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#addTreatmentButton').click(function (e) {
+                e.preventDefault();
+
+                var newTreatment = {
+                    Nombre: $('#nombre').val(),
+                    Descripcion: $('#descripcion').val(),
+                    Costo: parseFloat($('#costo').val())
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7176/Treatment/AddTreatment',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newTreatment),
+                    success: function (data) {
+                        alert('Tratamiento agregado correctamente con ID: ' + data.id);
+                        window.location.href = 'Index';
+                    },
+                    error: function (error) {
+                        alert('Error al agregar el tratamiento. Verifica los datos.');
+                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}
