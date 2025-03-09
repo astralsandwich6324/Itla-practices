@@ -1,0 +1,116 @@
+﻿@page "/ventas/editar/0"
+@page "/ventas/editar/{Id:int}"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+@inject IJSRuntime jsx
+
+<PageTitle>Ventas</PageTitle>
+
+<div class="container">
+    <h3>Nueva Venta</h3>
+
+    <div class="text-end mb-3 mt-3">
+        <button class="btn btn-primary" @onclick="VerVentas">Ver Ventas</button>
+    </div>
+
+
+    <EditForm Model="@ventas" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            <div class="form-group mt-3">
+                <label for="Name">Producto:</label>
+                <select id="Name" @bind="ventas.InventoryId" class="form-control">
+                    @foreach (var producto in productos)
+                    {
+                        <option value="@producto.Id">@producto.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                <label for="cant" class="form-label">Stock</label>
+                <InputNumber id="cant" class="form-control" @bind-Value="ventas.Cantidad"  />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="Fechav" class="form-label">Fecha de venta</label>
+                <InputDate id="Fechav" class="form-control" @bind-Value="@ventas.FechaVenta" />
+            </div>
+            <div class="col">
+                <label for="price" class="form-label">Precio</label>
+                <InputNumber id="price" class="form-control" @bind-Value="@ventas.PriceF" />
+            </div>
+        </div>
+        <div class="row mb-3">
+
+            <div class="col">
+                <label for="desc" class="form-label">Descripcion</label>
+                <InputText id="desc" class="form-control" @bind-Value="@ventas.Description" />
+            </div>
+        </div>
+
+
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </EditForm>
+
+
+</div>
+
+@code {
+
+    [Parameter] public int Id { get; set; }
+
+    Sells ventas = new Sells();
+
+    
+
+    List<Inventory> productos = new();
+
+    
+
+    protected async Task Guardar()
+    {
+        if (ventas.Id > 0)
+        {
+            ctx.VentasDB.Update(ventas);
+        }
+        else
+        {
+            ctx.VentasDB.Add(ventas);
+            
+        }
+
+        await ctx.SaveChangesAsync();
+        ventas = new Sells();
+       
+        StateHasChanged();
+        
+    }
+
+    private void VerVentas(){
+        Nav.NavigateTo("/ver_ventas");
+    }
+
+     protected override void OnInitialized(){
+        productos = ctx.ProductosDB.ToList();
+        if(Id != 0){
+           ventas = ctx.VentasDB
+            .Include(v => v.Inventory)
+                         .FirstOrDefault(v => v.Id == Id) ?? new Sells();
+
+        }
+    }
+
+    
+}
+<style>
+    .container h3{
+    margin-top:10px;
+    font-weight: bold;
+}
+</style>

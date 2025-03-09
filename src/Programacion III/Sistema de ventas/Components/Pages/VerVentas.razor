@@ -1,0 +1,88 @@
+@page "/ver_ventas"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Inventario</PageTitle>
+
+<div class="container">
+
+    <h3>Ventas</h3>
+    <div class="text-end mb-3 mt-3">
+        <button class="btn btn-primary" @onclick="AgregarNuevo">+ Nuevo Elemento</button>
+    </div>
+     
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Productos</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">FechaVenta</th>
+                <th scope="col">PrecioFinal</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var items in ListaVentas)
+            {
+                <tr>
+                    <td>@items.Id</td>
+                    <td>@items.Inventory.Name</td>
+                    <td>@items.Cantidad</td>
+                    <td>@items.FechaVenta</td>
+                    <td>@items.PriceF</td>
+                    <td>@items.Description</td>
+                    <td>
+                        <button @onclick="() => Editar(items.Id)" class="btn btn-warning">Editar</button>
+                        <button @onclick="() => Borrar(items.Id)" class="btn btn-danger">Borrar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+       
+</div>
+
+@code {
+    List<Sells> ListaVentas = new List<Sells>();
+
+    private void AgregarNuevo()
+    {
+        Nav.NavigateTo("/ventas/editar/0");
+    }
+
+    public void Editar(int id)
+    {
+        Nav.NavigateTo($"/ventas/editar/{id}");
+    }
+
+    
+
+    protected override void OnInitialized()
+    {
+        ListaVentas = ctx.VentasDB.ToList();
+    }
+
+    protected async Task Borrar(int id)
+    {
+        var listaVentas = await ctx.VentasDB.FindAsync(id);
+        if (listaVentas != null)
+        {
+            ctx.VentasDB.Remove(listaVentas);
+            ListaVentas.Remove(listaVentas);
+
+            await ctx.SaveChangesAsync();
+            StateHasChanged();
+        }
+    }
+}
+
+
+<style>
+    .container h3{
+    margin-top:10px;
+    font-weight: bold;
+}
+</style>

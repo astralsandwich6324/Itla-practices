@@ -1,0 +1,86 @@
+@page "/AcercaDe"
+
+<h1>Creadores de label pagina</h1>
+<div class="pagina-container">
+    <div class="container">
+        <div class="row">
+            @foreach (var perfil in Creadores)
+            {
+                <div class="col-md-4 md-3">
+                    <div class="card bg-light" style="width: 18rem; height:30rem;">
+                        @if (!string.IsNullOrEmpty(perfil.Foto))
+                        {
+                            <img class="card-img-top" src="@perfil.Foto" alt="@perfil.Nombre" width="100px" height="260px">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">Nombre: @perfil.Nombre</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Nombre: @perfil.Nombre </li>
+                                <li class="list-group-item">Apellido: @perfil.Apellido </li>
+                                <li class="list-group-item">Matricula: @perfil.Matricula </li>
+                            </ul>
+                            <div class="row">
+                                <a href="@perfil.Telegram" target="_blank" class="btn btn-primary">Telegram</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+
+
+    public static Perfil Cristobal = new Perfil(
+        "Cristobal",
+        "Garcia Lopez",
+        "2023-1634",
+        "fotos/selfi.jpg",
+        "https://t.me/CrisGLpz");
+
+    public static Perfil Darling = new Perfil(
+        "Darlyn ",
+        "Perez",
+        "202010102",
+        "fotos/dary.jpeg",
+        "https://t.me/Dary141");
+
+    public static Perfil Jose = new Perfil(
+        "Jose Manuel",
+        "Santillan",
+        "2023-1156",
+        "fotos/jose.jpg",
+        "https://t.me/jose_M1156");
+
+    public List<Perfil> Creadores = new List<Perfil> { Cristobal, Jose, Darling };
+
+    public class Perfil
+    {
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string Matricula { get; set; }
+        public string Foto { get; set; }
+        public string Telegram { get; set; }
+
+
+        public Perfil() { }
+
+
+        public Perfil(string nombre, string apellido, string matricula, string foto, string telegram)
+        {
+            Nombre = nombre;
+            Apellido = apellido;
+            Matricula = matricula;
+            Foto = foto;
+            Telegram = telegram;
+        }
+
+
+    }
+
+}

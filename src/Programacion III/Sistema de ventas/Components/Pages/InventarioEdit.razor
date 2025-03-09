@@ -1,0 +1,110 @@
+@page "/inventario/editar/{Id:int}"
+@inject NavigationManager Nav
+
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+
+
+<PageTitle>Inventario</PageTitle>
+
+<div class="container">
+
+    <h3>Agregar nuevo</h3>
+
+        <EditForm Model="@inventario" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            <div class="col">
+                    <label for="Name" class="form-label">Nombre</label>
+                    <InputText id="Name" class="form-control" @bind-Value="@inventario.Name" />
+            </div>
+            <div class="col">
+                    <label for="Stock" class="form-label">Stock</label>
+                    <InputNumber id="Stock" class="form-control" @bind-Value="@inventario.Stock" />
+            </div>
+        </div>
+
+            <div class="form-group mt-3">
+                <label for="estado">Estado:</label>
+                <select @bind="inventario.Estado" class="form-control">
+                    @foreach (var estado in Enum.GetValues(typeof(Inventory.Estados)))
+                    {
+                        <option value="@estado">@estado</option>
+                    }
+                </select>
+            </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="Fechav" class="form-label">FechaV</label>
+                    <InputDate id="Fechav" class="form-control" @bind-Value="@inventario.FechaV" />
+            </div>
+                <div class="col">
+                    <label for="price" class="form-label">Precio</label>
+                    <InputNumber id="price" class="form-control" @bind-Value="@inventario.PriceInicial" />
+                </div>
+        </div>
+        <div class="row mb-3">
+            
+            <div class="col">
+                <label for="desc" class="form-label">Descripcion</label>
+                <InputText id="desc" class="form-control" @bind-Value="@inventario.Description" />
+            </div>
+        </div>
+
+
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </EditForm>
+
+</div>
+
+@code {
+
+    [Parameter] public int Id { get; set; }
+
+    Inventory inventario = new Inventory();
+    
+    protected async Task Guardar()
+    {
+        if (inventario.Id > 0)
+        {
+            ctx.ProductosDB.Update(inventario);
+        }
+        else
+        {
+            ctx.ProductosDB.Add(inventario);
+            
+        }
+
+        await ctx.SaveChangesAsync();
+        inventario = new Inventory();
+       
+        StateHasChanged();
+        Nav.NavigateTo("/inventario");
+        
+        
+    }
+
+
+    protected override void OnInitialized(){
+        if(Id != 0){
+           inventario = ctx.ProductosDB.Find(Id) ?? new Inventory();
+        }
+    }
+      
+
+
+
+
+}
+
+<style>
+    .container h3{
+    margin-top:10px;
+    font-weight: bold;
+}
+</style>
+

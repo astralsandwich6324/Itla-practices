@@ -1,0 +1,69 @@
+@page "/usuarios/editar/{Id:int}"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Usuarios</PageTitle>
+
+<div class="container">
+
+    <h3>@(usuario.Id == 0 ? "Agregar Nuevo Usuario" : "Editar Usuario")</h3>
+
+    <EditForm Model="@usuario" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            <div class="col">
+                <label for="Nombre" class="form-label">Nombre</label>
+                <InputText id="Nombre" class="form-control" @bind-Value="@usuario.Nombre" />
+            </div>
+            <div class="col">
+                <label for="Cedula" class="form-label">Cédula</label>
+                <InputText id="Cedula" class="form-control" @bind-Value="@usuario.Cedula" />
+            </div>
+        </div>
+
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </EditForm>
+
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    Users usuario = new Users();
+
+    protected async Task Guardar()
+    {
+        if (usuario.Id > 0)
+        {
+            ctx.UsuarioDb.Update(usuario);
+        }
+        else
+        {
+            ctx.UsuarioDb.Add(usuario);
+        }
+
+        await ctx.SaveChangesAsync();
+        usuario = new Users();
+        StateHasChanged();
+        Nav.NavigateTo("/usuarios");
+    }
+
+    protected override void OnInitialized()
+    {
+        if (Id != 0)
+        {
+            usuario = ctx.UsuarioDb.Find(Id) ?? new Users();
+        }
+    }
+}
+
+<style>
+    .container h3 {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,79 @@
+﻿@page "/usuarios"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Usuarios</PageTitle>
+
+<div class="container">
+
+    <h3>Usuarios</h3>
+    <div class="text-end mb-3 mt-3">
+        <button class="btn btn-primary" @onclick="AgregarNuevo">+ Nuevo Usuario</button>
+    </div>
+     
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cédula</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in listausuarios)
+            {
+                <tr>
+                    <td>@usuario.Id</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Cedula</td>
+                    <td>
+                        <button @onclick="() => Editar(usuario.Id)" class="btn btn-warning">Editar</button>
+                        <button @onclick="() => Borrar(usuario.Id)" class="btn btn-danger">Borrar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+       
+</div>
+
+@code {
+    List<Users> listausuarios = new List<Users>();
+
+    private void AgregarNuevo()
+    {
+        Nav.NavigateTo("/usuarios/editar/0");
+    }
+
+    public void Editar(int id)
+    {
+        Nav.NavigateTo($"/usuarios/editar/{id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        listausuarios = ctx.UsuarioDb.ToList();
+    }
+
+    protected async Task Borrar(int id)
+    {
+        var usuario = await ctx.UsuarioDb.FindAsync(id);
+        if (usuario != null)
+        {
+            ctx.UsuarioDb.Remove(usuario);
+            listausuarios.Remove(usuario);
+
+            await ctx.SaveChangesAsync();
+            StateHasChanged();
+        }
+    }
+}
+
+<style>
+    .container h3 {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>

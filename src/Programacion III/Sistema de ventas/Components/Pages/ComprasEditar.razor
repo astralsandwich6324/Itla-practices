@@ -1,0 +1,80 @@
+@page "/compras/editar/{Id:int}"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Compras</PageTitle>
+
+<div class="container">
+
+    <h3>@(compra.Id == 0 ? "Agregar Nueva Compra" : "Editar Compra")</h3>
+
+    <EditForm Model="@compra" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            <div class="col">
+                <label for="Proveedor" class="form-label">Proveedor</label>
+                <InputText id="Proveedor" class="form-control" @bind-Value="@compra.Proveedor" />
+            </div>
+            <div class="col">
+                <label for="FechaCompra" class="form-label">Fecha de Compra</label>
+                <InputDate id="FechaCompra" class="form-control" @bind-Value="@compra.FechaCompra" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="Precio" class="form-label">Precio</label>
+                <InputNumber id="Precio" class="form-control" @bind-Value="@compra.Precio" />
+            </div>
+            <div class="col">
+                <label for="IngresosProveedor" class="form-label">Ingresos Proveedor</label>
+                <InputNumber id="IngresosProveedor" class="form-control" @bind-Value="@compra.IngresosProveedor" />
+            </div>
+        </div>
+
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </EditForm>
+
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    Compra compra = new Compra();
+
+    protected async Task Guardar()
+    {
+        if (compra.Id > 0)
+        {
+            ctx.ComprasDB.Update(compra);
+        }
+        else
+        {
+            ctx.ComprasDB.Add(compra);
+        }
+
+        await ctx.SaveChangesAsync();
+        compra = new Compra();
+        StateHasChanged();
+        Nav.NavigateTo("/compras");
+    }
+
+    protected override void OnInitialized()
+    {
+        if (Id != 0)
+        {
+            compra = ctx.ComprasDB.Find(Id) ?? new Compra();
+        }
+    }
+}
+
+<style>
+    .container h3 {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>

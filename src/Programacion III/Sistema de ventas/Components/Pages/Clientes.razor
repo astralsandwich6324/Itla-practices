@@ -1,0 +1,145 @@
+﻿@page "/clientes"
+
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+@inject Contexto ctx
+@inject IJSRuntime js
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Clientes</PageTitle>
+
+<h2>Clientes</h2>
+
+@if(modo == Modo.Lista)
+{
+    
+    <div class="text-end mb-3">
+        <button class="btn btn-secondary" @onclick="() => modo = Modo.Editar">Agregar</button>
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Cedula</th>
+                @* <th>Tipo</th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in listausuarios)
+            {
+                <tr>
+                    <td>@usuario.Id</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Cedula</td>
+                    @* <td>@usuario.Tipo</td> *@
+                    <td>
+                        <div class="text-center mb-3">
+                            <div class="row">
+                                <button class="btn btn-dark btn-sm" @onclick="() => Editar(usuario)">Editar</button>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-danger btn-sm" @onclick="() => Borrar(usuario)">Eliminar</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (modo == Modo.Editar)
+{
+    <h3>Editar Usuarios</h3>
+    <EditForm Model="@usuario" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            @if(usuario.Id==0){
+            <div class="col">
+                <label for="Cedula" class="form-label">Cédula</label>
+                <InputText id="Cedula" class="form-control" @bind-Value="@usuario.Cedula" />
+            </div>
+            }
+            <div class="form-group">
+            <label for="name">Nombre:</label>
+            <InputText class="form-control" id="name" @bind-Value="@usuario.Nombre" />
+           
+        </div
+            
+        </div>
+        
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-dark btn-lg">Guardar</button>
+        </div>
+    </EditForm>
+}
+
+@code {
+    enum Modo
+    {
+        Lista,
+        Editar
+    }
+
+    [Parameter] public int Id { get; set; }
+
+    Modo modo = Modo.Lista;
+
+    List<Users> listausuarios = new List<Users>();
+
+    Users usuario = new Users();
+
+
+    protected async Task Guardar()
+    {
+        if (usuario.Id > 0)
+        {
+            ctx.UsuarioDb.Update(usuario);
+        }
+        else
+        {
+            ctx.UsuarioDb.Add(usuario);
+            listausuarios.Add(usuario);
+        }
+
+        await ctx.SaveChangesAsync();
+        StateHasChanged();
+
+        usuario = new Users();
+        modo = Modo.Lista;
+    }
+
+    protected async Task Borrar(Users x)
+    {
+        ctx.UsuarioDb.Remove(x);
+        listausuarios.Remove(x);
+
+        await ctx.SaveChangesAsync();
+        StateHasChanged();
+
+        usuario = new Users();
+        modo = Modo.Lista;
+    }
+
+    public void Editar(Users x)
+    {
+        this.usuario = x;
+        modo = Modo.Editar;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool render)
+    {
+        listausuarios = await ctx.UsuarioDb.ToListAsync();
+        if (Id > 0)
+        {
+            usuario = await ctx.UsuarioDb.FirstOrDefaultAsync(x => x.Id == Id) ?? new Users();
+        }
+        await ctx.SaveChangesAsync();
+
+        
+        StateHasChanged();
+    }
+}
+
+

@@ -1,0 +1,83 @@
+@page "/compras"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Compras</PageTitle>
+
+<div class="container">
+
+    <h3>Compras</h3>
+    <div class="text-end mb-3 mt-3">
+        <button class="btn btn-primary" @onclick="AgregarNuevo">+ Nueva Compra</button>
+    </div>
+     
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Fecha de Compra</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Ingresos Proveedor</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var compra in compras)
+            {
+                <tr>
+                    <td>@compra.Id</td>
+                    <td>@compra.Proveedor</td>
+                    <td>@compra.FechaCompra.ToShortDateString()</td>
+                    <td>@compra.Precio.ToString("C")</td>
+                    <td>@compra.IngresosProveedor.ToString("C")</td>
+                    <td>
+                        <button @onclick="() => Editar(compra.Id)" class="btn btn-warning">Editar</button>
+                        <button @onclick="() => Borrar(compra.Id)" class="btn btn-danger">Borrar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+       
+</div>
+
+@code {
+    List<Compra> compras = new List<Compra>();
+
+    private void AgregarNuevo()
+    {
+        Nav.NavigateTo("/compras/editar/0");
+    }
+
+    public void Editar(int id)
+    {
+        Nav.NavigateTo($"/compras/editar/{id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        compras = ctx.ComprasDB.ToList();
+    }
+
+    protected async Task Borrar(int id)
+    {
+        var compra = await ctx.ComprasDB.FindAsync(id);
+        if (compra != null)
+        {
+            ctx.ComprasDB.Remove(compra);
+            compras.Remove(compra);
+
+            await ctx.SaveChangesAsync();
+            StateHasChanged();
+        }
+    }
+}
+
+<style>
+    .container h3 {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>

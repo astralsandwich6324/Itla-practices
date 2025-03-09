@@ -1,0 +1,88 @@
+﻿@page "/inventario"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Inventario</PageTitle>
+
+<div class="container">
+
+    <h3>Inventario</h3>
+    <div class="text-end mb-3 mt-3">
+        <button class="btn btn-primary" @onclick="AgregarNuevo">+ Nuevo Elemento</button>
+    </div>
+     
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fechav</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var items in productos)
+            {
+                <tr>
+                    <td>@items.Id</td>
+                    <td>@items.Name</td>
+                    <td>@items.Stock</td>
+                    <td>@items.Estado</td>
+                    <td>@items.FechaV</td>
+                    <td>@items.PriceInicial</td>
+                    <td>@items.Description</td>
+                    <td>
+                        <button @onclick="() => Editar(items.Id)" class="btn btn-warning">Editar</button>
+                        <button @onclick="() => Borrar(items.Id)" class="btn btn-danger">Borrar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+       
+</div>
+
+@code {
+    List<Inventory> productos = new List<Inventory>();
+
+    private void AgregarNuevo()
+    {
+        Nav.NavigateTo("/inventario/editar/0");
+    }
+
+    public void Editar(int id)
+    {
+        Nav.NavigateTo($"/inventario/editar/{id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        productos = ctx.ProductosDB.ToList();
+    }
+
+    protected async Task Borrar(int id)
+    {
+        var producto = await ctx.ProductosDB.FindAsync(id);
+        if (producto != null)
+        {
+            ctx.ProductosDB.Remove(producto);
+            productos.Remove(producto);
+
+            await ctx.SaveChangesAsync();
+            StateHasChanged();
+        }
+    }
+}
+
+
+<style>
+    .container h3{
+    margin-top:10px;
+    font-weight: bold;
+}
+</style>
