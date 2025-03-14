@@ -2,16 +2,20 @@
 @inject NavigationManager Nav
 @inject Contexto ctx
 @using Microsoft.EntityFrameworkCore
+@inject EstadoCompartido Estado
+@inject IJSRuntime jsx
 
 <PageTitle>Inventario</PageTitle>
 
 <div class="container">
-
-    <h3>Ventas</h3>
-    <div class="text-end mb-3 mt-3">
-        <button class="btn btn-primary" @onclick="AgregarNuevo">+ Nuevo Elemento</button>
+    <div class="row mt-3">
+<h3 class="col">Ventas</h3>
+    <div class="text-end mb-3 mt-3 col">
+        <button  style="all:unset" @onclick="AgregarNuevo"><i class="bi bi-plus-square-fill" style="font-size: 30px; color:#055D5E;"></i></button>
     </div>
-     
+    </div>
+    
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -19,34 +23,49 @@
                 <th scope="col">Productos</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">FechaVenta</th>
-                <th scope="col">PrecioFinal</th>
+                <th scope="col">Precio venta</th>
                 <th scope="col">Descripcion</th>
                 <th scope="col">Acciones</th>
+                <th scope="col"><i class="bi bi-receipt" style="color: #f25d0e; font-size: 25px;"></i></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var items in ListaVentas)
             {
+
                 <tr>
-                    <td>@items.Id</td>
+                    <td>@items.Id
+
+                    </td>
                     <td>@items.Inventory.Name</td>
                     <td>@items.Cantidad</td>
                     <td>@items.FechaVenta</td>
-                    <td>@items.PriceF</td>
+                    <td>@items.SalePrice</td>
                     <td>@items.Description</td>
                     <td>
-                        <button @onclick="() => Editar(items.Id)" class="btn btn-warning">Editar</button>
-                        <button @onclick="() => Borrar(items.Id)" class="btn btn-danger">Borrar</button>
+                        <button style="all:unset;" @onclick="() => Editar(items.Id)" ><i class="bi bi-pencil-square" style="color:#fa8b0b; font-size: 20px;"></i></button>
+                        <button style="all:unset;" @onclick="() => Borrar(items.Id)" ><i class="bi bi-trash3-fill" style="color:red; font-size: 20px;"></i></button>
                     </td>
+                    <td>
+                        <a style="text-decoration: none;"
+                        @onclick="()=> Export(items.Id)"><i class="bi bi-plus-square-fill" style="color: #055D5E; font-size: 15px;"></i></a></td>
                 </tr>
             }
         </tbody>
     </table>
-       
+
 </div>
 
 @code {
     List<Sells> ListaVentas = new List<Sells>();
+
+    private int link; 
+
+    async Task Export(int id){
+
+        Estado.valor = id;
+        Nav.NavigateTo("ventasReport");
+    }
 
     private void AgregarNuevo()
     {

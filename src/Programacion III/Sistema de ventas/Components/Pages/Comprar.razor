@@ -1,83 +1,175 @@
-@page "/compras"
+﻿@page "/inventario/editar/{Id:int}"
 @inject NavigationManager Nav
 @inject Contexto ctx
 @using Microsoft.EntityFrameworkCore
+@inject IJSRuntime jsx
 
-<PageTitle>Compras</PageTitle>
+
+<PageTitle>Inventario</PageTitle>
 
 <div class="container">
 
-    <h3>Compras</h3>
-    <div class="text-end mb-3 mt-3">
-        <button class="btn btn-primary" @onclick="AgregarNuevo">+ Nueva Compra</button>
-    </div>
-     
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Proveedor</th>
-                <th scope="col">Fecha de Compra</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Ingresos Proveedor</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var compra in compras)
-            {
-                <tr>
-                    <td>@compra.Id</td>
-                    <td>@compra.Proveedor</td>
-                    <td>@compra.FechaCompra.ToShortDateString()</td>
-                    <td>@compra.Precio.ToString("C")</td>
-                    <td>@compra.IngresosProveedor.ToString("C")</td>
-                    <td>
-                        <button @onclick="() => Editar(compra.Id)" class="btn btn-warning">Editar</button>
-                        <button @onclick="() => Borrar(compra.Id)" class="btn btn-danger">Borrar</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-       
+    <h3 class="mt-3 pt-3 mb-3">Agregar nuevo</h3>
+
+    <EditForm Model="@inventario" OnValidSubmit="() => Guardar(inventario.ProvedorId)">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        
+           <div class="row mb-3">
+            <div class="col">
+                <label for="Proveedor" class="form-label">Proveedor:</label>
+                <select id="Name" @bind="inventario.ProvedorId"  class="form-control">
+                    @foreach (var pr in proveedors)
+                    {
+                        <option value="@pr.Id">@pr.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col">
+                <button style="all:unset;" @onclick="Revisar"><i class="bi bi-exclamation-circle" style="color: orange;"></i></button>
+            </div>
+           </div>
+
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="Stock" class="form-label">Producto</label>
+                <InputText id="Stock" class="form-control" @bind-Value="@inventario.Name" />
+            </div>
+            <div class="col">
+                <label for="Stock" class="form-label">Stock</label>
+                <InputNumber id="Stock" class="form-control" @bind-Value="@inventario.Stock" />
+            </div>
+        </div>
+
+        <div class="form-group mt-3 mb-3">
+            <label for="estado">Estado:</label>
+            <select @bind="inventario.Estado" class="form-control">
+                @foreach (var estado in Enum.GetValues(typeof(Inventory.Estados)))
+                {
+                    <option value="@estado">@estado</option>
+                }
+            </select>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="Fechav" class="form-label">Fecha de Vencimiento</label>
+                <InputDate id="Fechav" class="form-control" @bind-Value="@inventario.FechaCaducidad" />
+            </div>
+            <div class="col">
+                <label for="Fechav" class="form-label">Fecha de compra</label>
+                <InputDate id="Fechav" class="form-control" @bind-Value="@inventario.Fecha" />
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="price" class="form-label">Precio</label>
+                <InputNumber id="price" class="form-control" @bind-Value="@inventario.BasePrice" />
+            </div>
+            <div class="col">
+                <label for="desc" class="form-label">Descripcion</label>
+                <InputText id="desc" class="form-control" @bind-Value="@inventario.Description" />
+            </div>
+        </div>
+
+
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </EditForm>
+    <br/>
 </div>
 
 @code {
-    List<Compra> compras = new List<Compra>();
 
-    private void AgregarNuevo()
-    {
-        Nav.NavigateTo("/compras/editar/0");
+    async Task Revisar(){
+        
+            bool resultado = await jsx.InvokeAsync<bool>("confirm", "No tienes proveedores registrados, deseas registrar uno?");
+            if (resultado)
+            {
+            Nav.NavigateTo($"/proveedor/editar/0");
+            }
+        
+        
+        
     }
 
-    public void Editar(int id)
-    {
-        Nav.NavigateTo($"/compras/editar/{id}");
-    }
+    [Parameter] public int Id { get; set; }
 
-    protected override void OnInitialized()
-    {
-        compras = ctx.ComprasDB.ToList();
-    }
+    Inventory inventario = new Inventory();
 
-    protected async Task Borrar(int id)
+    List<Proveedor> proveedors = new List<Proveedor>();
+
+    protected async Task Guardar(int id)
     {
-        var compra = await ctx.ComprasDB.FindAsync(id);
-        if (compra != null)
+        if (inventario.Id > 0)
         {
-            ctx.ComprasDB.Remove(compra);
-            compras.Remove(compra);
+            ctx.ProductosDB.Update(inventario);
+        }
+        else
+        {
+            ctx.ProductosDB.Add(inventario);
 
-            await ctx.SaveChangesAsync();
-            StateHasChanged();
+        }
+        //---------------
+        var _proveedor = await ctx.ProveedorsDB
+            .Where(i => i.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (_proveedor != null)
+        {
+
+            _proveedor.IngresosProveedor = inventario.BasePrice;
+            _proveedor.ProductosComprados = inventario.Stock;
+            _proveedor.FechaVenta = inventario.Fecha;
+            ctx.ProveedorsDB.Update(_proveedor);
+
+        }   
+       
+        await ctx.SaveChangesAsync();
+        inventario = new Inventory();
+       
+        StateHasChanged();
+        Nav.NavigateTo("/inventario");
+        
+        
+    }
+
+
+    protected override void OnInitialized(){
+
+        proveedors = ctx.ProveedorsDB.ToList();
+        if(Id != 0){
+           inventario = ctx.ProductosDB
+            .Include(P => P.Proveedor).FirstOrDefault(P => P.Id == Id) ?? new Inventory();
         }
     }
+      
+
+
+
+
 }
 
 <style>
-    .container h3 {
-        margin-top: 10px;
-        font-weight: bold;
-    }
+    .container h3{
+    
+    font-weight: bold;
+}
+
+.container{
+    font-weight: bold;
+}
+
+.container form input{
+    border:solid #000 1px;
+}
+
+.container form select{
+    border:solid #000 1px;
+}
 </style>
+

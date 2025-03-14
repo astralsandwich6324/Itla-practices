@@ -1,4 +1,4 @@
 public class EstadoCompartido{
 
-    public string link{get;set;}= "#";
+    public int valor {get;set;}
 }

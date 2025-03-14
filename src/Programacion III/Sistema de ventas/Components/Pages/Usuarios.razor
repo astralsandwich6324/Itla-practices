@@ -6,12 +6,14 @@
 <PageTitle>Usuarios</PageTitle>
 
 <div class="container">
-
-    <h3>Usuarios</h3>
-    <div class="text-end mb-3 mt-3">
-        <button class="btn btn-primary" @onclick="AgregarNuevo">+ Nuevo Usuario</button>
+    <div class="row mt-3">
+        <h4 style="font-weight: bold;" class="col mt-3">Usuarios</h4>
+    <div class="text-end mb-3 mt-3 col">
+        <button style="all:unset;" @onclick="AgregarNuevo"><i class="bi bi-plus-square-fill" style="font-size: 30px; color:#055D5E;"></i></button>
     </div>
      
+    </div>
+    
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -29,8 +31,8 @@
                     <td>@usuario.Nombre</td>
                     <td>@usuario.Cedula</td>
                     <td>
-                        <button @onclick="() => Editar(usuario.Id)" class="btn btn-warning">Editar</button>
-                        <button @onclick="() => Borrar(usuario.Id)" class="btn btn-danger">Borrar</button>
+                        <button style="all:unset;" @onclick="() => Editar(usuario.Id)" ><i class="bi bi-pencil-square" style="color:#fa8b0b; font-size: 20px;"></i></button>
+                        <button style="all:unset;" @onclick="() => Borrar(usuario.Id)" ><i class="bi bi-trash3-fill" style="color:red; font-size: 20px;"></i></button>
                     </td>
                 </tr>
             }

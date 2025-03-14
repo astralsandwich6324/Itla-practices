@@ -6,19 +6,24 @@
 <PageTitle>Inventario</PageTitle>
 
 <div class="container">
-
-    <h3>Inventario</h3>
-    <div class="text-end mb-3 mt-3">
-        <button class="btn btn-primary" @onclick="AgregarNuevo">+ Nuevo Elemento</button>
+    <div class="row mt-3">
+    <h3 class="mt-3 col" style="font-weight: bold;">Inventario</h3>
+    <div class="text-end mb-3 mt-3 col">
+        <button style="all:unset;" @onclick="AgregarNuevo"><i class="bi bi-plus-square-fill" style="color:#055D5E; font-size: 30px;"></i></button>
     </div>
-     
+    </div>
+    
+
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
+                @* <th scope="col">Proveedor</th> *@
+                <th scope="col">Producto:</th>
                 <th scope="col">Stock</th>
+                <th scope="col"></th>
                 <th scope="col">Estado</th>
+                <th scope="col">Fecha</th>
                 <th scope="col">Fechav</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Descripcion</th>
@@ -28,27 +33,40 @@
         <tbody>
             @foreach (var items in productos)
             {
+                if(items.Stock <= 5){
+                    Signal = "<i class='bi bi-exclamation - lg' style='color: red; font-size: 20px; '></i>";
+                }
+                else{
+                    Signal = "<i class='bi bi-check - circle' style='color: green; font-size: 20px;'></i>";
+                }
                 <tr>
                     <td>@items.Id</td>
+                    @* <td>@items.Proveedor.Name</td> *@
                     <td>@items.Name</td>
                     <td>@items.Stock</td>
+                    <td>@((MarkupString)Signal)</td>
                     <td>@items.Estado</td>
-                    <td>@items.FechaV</td>
-                    <td>@items.PriceInicial</td>
+                    <td>@items.Fecha</td>
+                    <td>@items.FechaCaducidad</td>
+                    <td>@items.BasePrice</td>
                     <td>@items.Description</td>
                     <td>
-                        <button @onclick="() => Editar(items.Id)" class="btn btn-warning">Editar</button>
-                        <button @onclick="() => Borrar(items.Id)" class="btn btn-danger">Borrar</button>
+                        <button style="all: unset;" @onclick="() => Editar(items.Id)" ><i class="bi bi-pencil-square" style="color:#fa8b0b; font-size: 20px;"></i></button>
+                        <button style="all:unset" @onclick="() => Borrar(items.Id)" ><i class="bi bi-trash3-fill" style="color:red; font-size: 20px;"></i></button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-       
+
 </div>
 
 @code {
     List<Inventory> productos = new List<Inventory>();
+
+    Inventory inventario = new Inventory();
+
+    public string? Signal;
 
     private void AgregarNuevo()
     {
@@ -62,8 +80,16 @@
 
     protected override void OnInitialized()
     {
+        //   productos = ctx.ProductosDB
+        // .Include(p => p.Proveedor) 
+        // .ToList();
+
         productos = ctx.ProductosDB.ToList();
     }
+
+    // void filtrar(){
+    //     inventario = productos.W
+    // }
 
     protected async Task Borrar(int id)
     {
@@ -77,12 +103,7 @@
             StateHasChanged();
         }
     }
-}
 
+    
 
-<style>
-    .container h3{
-    margin-top:10px;
-    font-weight: bold;
 }
-</style>

@@ -1,0 +1,74 @@
+@page "/clientes/Editar/{Id:int}"
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+@inject Contexto ctx
+@inject IJSRuntime js
+@using Microsoft.EntityFrameworkCore
+@using P.Final.Components.Modelos
+  
+  
+<div class="container">
+    <h4>Editar Usuarios</h4>
+    <EditForm Model="@usuario" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            @if(usuario.Id==0){
+            <div class="col">
+                <label for="Cedula" class="form-label">Cédula</label>
+                <InputText id="Cedula" class="form-control" @bind-Value="@usuario.Cedula" />
+            </div>
+            }
+            <div class="form-group">
+            <label for="name">Nombre:</label>
+            <InputText class="form-control" id="name" @bind-Value="@usuario.Nombre" />
+           
+        </div
+            
+        </div>
+        
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-dark btn-lg">Guardar</button>
+        </div>
+    </EditForm>
+</div>
+
+@code{
+
+
+    [Parameter] public int Id { get; set; }
+
+    Users usuario = new Users();
+     protected override async Task OnAfterRenderAsync(bool render)
+    {
+        
+        if (Id > 0)
+        {
+            usuario = await ctx.UsuarioDb.FirstOrDefaultAsync(x => x.Id == Id) ?? new Users();
+        }
+        await ctx.SaveChangesAsync();
+
+        
+        StateHasChanged();
+    }
+
+    protected async Task Guardar()
+    {
+        if (usuario.Id > 0)
+        {
+            ctx.UsuarioDb.Update(usuario);
+        }
+        else
+        {
+            ctx.UsuarioDb.Add(usuario);
+            
+        }
+
+        await ctx.SaveChangesAsync();
+        usuario = new Users();
+        StateHasChanged();
+
+        
+        
+    }
+}

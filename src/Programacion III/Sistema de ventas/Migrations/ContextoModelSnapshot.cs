@@ -16,35 +16,14 @@ namespace P.Final.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("Compra", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("FechaCompra")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("IngresosProveedor")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Proveedor")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ComprasDB");
-                });
-
             modelBuilder.Entity("Inventory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<double>("BasePrice")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
@@ -53,22 +32,56 @@ namespace P.Final.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("FechaV")
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FechaCaducidad")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("PriceInicial")
-                        .HasColumnType("REAL");
+                    b.Property<int>("ProvedorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProveedorId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<double>("Stock")
                         .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProveedorId");
+
                     b.ToTable("ProductosDB");
+                });
+
+            modelBuilder.Entity("P.Final.Components.Modelos.Proveedor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaRegisro")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FechaVenta")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("IngresosProveedor")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("ProductosComprados")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProveedorsDB");
                 });
 
             modelBuilder.Entity("Sells", b =>
@@ -89,7 +102,7 @@ namespace P.Final.Migrations
                     b.Property<int>("InventoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("PriceF")
+                    b.Property<double>("SalePrice")
                         .HasColumnType("REAL");
 
                     b.Property<double>("Total")
@@ -114,11 +127,6 @@ namespace P.Final.Migrations
                     b.Property<string>("Clave")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
@@ -128,17 +136,15 @@ namespace P.Final.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UsuarioDb");
-
-                    b.HasDiscriminator().HasValue("Users");
-
-                    b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Central", b =>
+            modelBuilder.Entity("Inventory", b =>
                 {
-                    b.HasBaseType("Users");
+                    b.HasOne("P.Final.Components.Modelos.Proveedor", "Proveedor")
+                        .WithMany()
+                        .HasForeignKey("ProveedorId");
 
-                    b.HasDiscriminator().HasValue("Central");
+                    b.Navigation("Proveedor");
                 });
 
             modelBuilder.Entity("Sells", b =>

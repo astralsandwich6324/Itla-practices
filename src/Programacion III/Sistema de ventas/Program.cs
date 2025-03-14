@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddControllers();
+
 builder.Services.AddDbContext<Contexto>(options=>
 options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
@@ -25,10 +27,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
+app.UseRouting();
+
 app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers(); 
+});
 
 app.Run();

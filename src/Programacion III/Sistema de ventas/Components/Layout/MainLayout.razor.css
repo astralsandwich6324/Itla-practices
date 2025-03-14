@@ -20,7 +20,7 @@
 /* Men� lateral */
 .sidebar {
     width: 100%;
-    background: #111855;
+    background:#fff;
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 0;
@@ -44,7 +44,7 @@
         width: 100%;
         font-size: 1.125rem;
         font-weight: 600;
-        color: #fff;
+        color: #055D5E;
         
         padding-top: 10px;
         padding-bottom: 15px;
@@ -54,17 +54,11 @@
         
     }
 
-    .sidebar-header hr {
-        
-        width: 80%;
-        border:none;
-        height: 2px;
-        background-color: #fff;
-        margin-top:10px;
-        margin-left: 15px;
-        
-        
+    .sidebar-header h2:hover{
+        color:#1dabad;
     }
+
+   
 
     .sidebar-links{
         display: flex;
@@ -74,57 +68,33 @@
         padding: 0;
     }
 
-    .sidebar-links h4 {
-        font-size: 0.9375rem;
-        color: #fff;
-        font-weight: bold;
-        margin-top: 10px;
-        margin-bottom: 15px;
-        margin-left: 0;
-        margin-right: 0;
-        
-        
-    }
 
 
     .sidebar-links li{
         list-style: none;
-        margin-top: 5px;
+        /*margin-top: 2px;
+        padding: 5px;*/
+        margin: 7px;
+        
+        width: 90%;
+    }
+
+    .sidebar-links li .custom_navlink{
+        text-decoration: none;
+        color:#000;
+        font-size: 14px;
+        font-weight: 600;
+        
+        
+    }
+
+    .sidebar-links li .custom_navlink:hover{
+        color:#055D5E;
+        background-color: #DCB23C;
+        border-radius: 7px;
         padding: 10px;
-        border-radius: 2px;
-        width: 100%;
     }
 
-    .sidebar-links li:hover{
-        background-color: #848695;
-    }
-
-
-/* Men� horizontal */
-.c2 {
-    position: absolute;
-    left: 200px;
-    width: calc(100% - 200px);
-    background-color: #1a237e;
-    height: 60px;
-    
-}
-
-    .c2 ul {
-        justify-content: space-between;
-        align-items: center;
-        display: flex;
-    }
-
-        .c2 ul li {
-            list-style: none;
-            margin-top: 13px;
-            
-        }
-
-        .c2 ul .li2{
-            margin-right: 15px;
-        }
 
             
 
@@ -132,11 +102,12 @@
 
 /* Contenido principal */
 .c3 {
-    top: 60px;
+    
     left:200px;
     width: calc(100% - 200px);
-    height: calc(100vh - 60px);
+    /*height: calc(100vh - 40px);*/
+    height: 100vh;
     position: absolute;
-    background:#fff;
+    background:#D3D2CE;
     
 }

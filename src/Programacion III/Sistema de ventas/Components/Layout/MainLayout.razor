@@ -8,66 +8,55 @@
             <div class="sidebar-header">
                 
                 <h2>Sistema de ventas</h2>
-                <hr>
+                
             </div>
             <ul class="sidebar-links">
-                <h4><span>Menú</span></h4>
+                
                 
                 <li>
-                    <NavLink  href="dashboard" class="custom_navlink" Match="NavLinkMatch.All" style="text-decoration: none;
-                color: white;
-                font-size: 18px; ">
-                        <span><i class="bi bi-grid-1x2" style="font-size: 1.5rem;"></i> Dashboard</span>
-                    </NavLink>
+                    <a  href="dashboard" class="custom_navlink" >
+                        <span><i class="bi bi-grid-1x2" style="font-size: 1.125rem;"></i> Dashboard</span>
+                    </a>
                 </li>
                 <li>
-                    <NavLink href="usuarios" class="custom_navlink" style="text-decoration: none;
-                color: white;
-                font-size: 18px;">
-                        <span><i class="bi bi-person" style="font-size: 1.5rem;"></i> Usuario</span>
-                    </NavLink>
+                    <a href="usuarios" class="custom_navlink" >
+                        <span><i class="bi bi-person" style="font-size: 1.125rem;"></i> Usuario</span>
+                    </a>
                 </li>
                 <li>
-                    <NavLink href="inventario" class="custom_navlink" style="text-decoration: none;
-                color: white;
-                font-size: 18px;">
-                        <span><i class="bi bi-box-seam" style="font-size: 1.5rem;"></i> Inventario</span>
-                    </NavLink>
+                    <a href="inventario" class="custom_navlink" >
+                        <span><i class="bi bi-box-seam" style="font-size: 1.125rem;"></i> Inventario</span>
+                    </a>
                 </li>
                 <li>
-                    <NavLink href="ventas/editar/0" class="custom_navlink" style="text-decoration: none;
-                color: white;
-                font-size: 18px;">
-                        <span><i class="bi bi-bag" style="font-size: 1.5rem;"></i> Ventas</span>
-                    </NavLink>
+                    <a href="ventas/editar/0" class="custom_navlink" >
+                        <span><i class="bi bi-bag" style="font-size: 1.125rem;"></i> Ventas</span>
+                    </a>
                 </li>
                 <li>
-                    <NavLink href="clientes" class="custom_navlink" style="text-decoration: none;
-                color: white;
-                font-size: 18px;">
-                        <span><i class="bi bi-cart-plus" style="font-size: 1.5rem;"></i> Compras</span>
-                    </NavLink>
+                    <a href="Compras" class="custom_navlink" >
+                        <span><i class="bi bi-cart-plus" style="font-size: 1.125rem;"></i> Compras</span>
+                    </a>
                 </li>
+                
+               <li>
+                    <a href="ListaProveedores" class="custom_navlink" >
+                        <span><i class="bi bi-file-earmark-bar-graph" style="font-size: 1.125rem;"></i> Proveedores</span>
+                    </a>
+                </li>
+
                 <li>
-                    <NavLink href="#" class="custom_navlink" style="text-decoration: none;
-                color: white;
-                font-size: 18px;">
-                        <span><i class="bi bi-cash" style="font-size: 1.5rem;"></i> Pagos</span>
-                    </NavLink>
+                    <a href="#" class="custom_navlink" >
+                        <span><i class="bi bi-cash" style="font-size: 1.125rem;"></i> Pagos</span>
+                    </a>
                 </li>
-                <li>
-                    <NavLink href="#" class="custom_navlink" style="text-decoration: none;
-                color: white;
-                font-size: 18px;">
-                        <span><i class="bi bi-file-earmark-bar-graph" style="font-size: 1.5rem;"></i> Reportes</span>
-                    </NavLink>
-                </li>
+                
             </ul>
         </aside>
 
         
     </div>
-    <!-- Menú horizontal -->
+    <!-- Menú horizontal 
     <nav class="caja c2">
         <ul>
             <li>
@@ -80,8 +69,9 @@
         </ul>
     </nav>
 
-    <!-- Contenido principal -->
+    Contenido principal -->
         <main class="caja c3">
-            @Body
+            <div class="container" style="background: #fff; border-radius: 10px;">@Body</div>
+            
         </main>
 </section>

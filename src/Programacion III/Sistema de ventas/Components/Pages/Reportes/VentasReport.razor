@@ -1,0 +1,60 @@
+﻿@layout EmpyLayout
+@page "/ventasReport"
+@inject Contexto ctx
+@inject EstadoCompartido Estado
+@using Microsoft.EntityFrameworkCore
+
+
+<h4 class="mb-3 mt-2">Reporte de Ventas</h4>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Productos</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">FechaVenta</th>
+            <th scope="col">Precio venta</th>
+            <th scope="col">Descripcion</th>
+            @* <th scope="col"></th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var items in ListaVentas.Where(x => x.Id == @id))
+        {
+             prueba = items.Id;
+            <tr>
+                <td>@prueba</td>
+                <td>@items.Inventory.Name</td>
+                <td>@items.Cantidad</td>
+                <td>@items.FechaVenta</td>
+                <td>@items.SalePrice</td>
+                <td>@items.Description</td>
+                @* <td>
+                    <a style="text-decoration:none;" href="/DownloadPdf?pageName=ventasReport" target="_blank">
+                        <i class="bi bi-filetype-pdf" style="color:red; font-size:16px;"></i>
+                </a></td> *@
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public int id;
+
+    private int prueba;
+
+    private List<Sells> ListaVentas = new List<Sells>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        id = Estado.valor;
+        if(id != null){
+            ListaVentas = await ctx.VentasDB.ToListAsync();
+        }
+        
+    }
+
+}
