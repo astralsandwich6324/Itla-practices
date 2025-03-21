@@ -1,0 +1,102 @@
+﻿@page "/"
+@page "/inventario"
+@using System.Net.Http
+@inject HttpClient Http
+@using System.Net.Http.Json
+@inject NavigationManager Nav
+@using Microsoft.EntityFrameworkCore
+@using P.Final.Components.Modelos.Response
+
+
+<PageTitle>Inventario</PageTitle>
+
+<div class="container">
+    <div class="row mt-3">
+        <h3 class="mt-3 col" style="font-weight: bold;">Inventario</h3>
+        <div class="text-end mb-3 mt-3 col">
+            <button style="all:unset;" @onclick="AgregarNuevo"><i class="bi bi-plus-square-fill" style="color:#055D5E; font-size: 30px;"></i></button>
+        </div>
+    </div>
+
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                @* <th scope="col">Proveedor</th> *@
+                <th scope="col">Producto:</th>
+                <th scope="col">Stock</th>
+                <th scope="col"></th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Fechav</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(oResponse != null && oResponse.Data != null){
+                @foreach (var items in (List<InventoryDto>)oResponse.Data)
+                {@* 
+                if(items.Stock <= 5){
+                    Signal = "<i class='bi bi-exclamation - lg' style='color: red; font-size: 20px; '></i>";
+                }
+                else{
+                    Signal = "<i class='bi bi-check - circle' style='color: green; font-size: 20px;'></i>";
+                } *@
+                    <tr>
+                        <td>@items.Id</td>
+                        @* <td>@items.Proveedor.Name</td> *@
+                        <td>@items.Name</td>
+                        <td>@items.Stock</td>
+                        <td>@((MarkupString)Signal)</td>
+                        <td>@items.Estado</td>
+                        <td>@items.Fecha</td>
+                        <td>@items.FechaCaducidad</td>
+                        <td>@items.BasePrice</td>
+                        <td>@items.Description</td>
+                        <td>
+                            <button style="all: unset;" @onclick="() => Editar(items.Id)" ><i class="bi bi-pencil-square" style="color:#fa8b0b; font-size: 20px;"></i></button>
+                            <button style="all:unset" @onclick="() => Borrar(items.Id)" ><i class="bi bi-trash3-fill" style="color:red; font-size: 20px;"></i></button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+@code {
+
+    public string Url = "/api/Inventario";
+
+    public Response<List<InventoryDto>> oResponse = new Response<List<InventoryDto>>();
+
+    protected override async Task OnInitializedAsync() =>
+    oResponse = await Http.GetFromJsonAsync<Response<List<InventoryDto>>>(Url);
+
+    public string? Signal;
+
+
+    private void AgregarNuevo()
+    {
+        Nav.NavigateTo("/inventarioForm");
+    }
+
+    public void Editar(int id)
+    {
+        Nav.NavigateTo($"/inventarioForm/{id}");
+    }
+
+
+    protected void Borrar(int id)
+    {
+        Nav.NavigateTo($"/eliminarInvenatario/{id}");
+    }
+ 
+    
+
+}

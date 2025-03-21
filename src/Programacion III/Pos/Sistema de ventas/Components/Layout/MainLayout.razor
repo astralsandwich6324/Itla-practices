@@ -1,0 +1,77 @@
+﻿@inherits LayoutComponentBase
+@inject EstadoCompartido Estado
+
+<section class="flex-container">
+    <div class="caja c1">
+        <!-- Menú vertical -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                
+                <h2>Sistema de ventas</h2>
+                
+            </div>
+            <ul class="sidebar-links">
+                
+                
+                <!----<li>
+                    <a  href="dashboard" class="custom_navlink" >
+                        <span><i class="bi bi-grid-1x2" style="font-size: 1.125rem;"></i> Dashboard</span>
+                    </a>
+                </li>---->
+             <!---   <li>
+                    <a href="usuarios" class="custom_navlink" >
+                        <span><i class="bi bi-person" style="font-size: 1.125rem;"></i> Usuario</span>
+                    </a>
+                </li>---->
+                <li>
+                    <a href="inventario" class="custom_navlink" >
+                        <span><i class="bi bi-box-seam" style="font-size: 1.125rem;"></i> Inventario</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="ventas/editar/0" class="custom_navlink" >
+                        <span><i class="bi bi-bag" style="font-size: 1.125rem;"></i> Ventas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Compras" class="custom_navlink" >
+                        <span><i class="bi bi-cart-plus" style="font-size: 1.125rem;"></i> Compras</span>
+                    </a>
+                </li>
+                
+              <!--- <li>
+                    <a href="ListaProveedores" class="custom_navlink" >
+                        <span><i class="bi bi-file-earmark-bar-graph" style="font-size: 1.125rem;"></i> Proveedores</span>
+                    </a>
+                </li>---->
+
+               <!---- <li>
+                    <a href="#" class="custom_navlink" >
+                        <span><i class="bi bi-cash" style="font-size: 1.125rem;"></i> Pagos</span>
+                    </a>
+                </li>-->
+                
+            </ul>
+        </aside>
+
+        
+    </div>
+    <!-- Menú horizontal 
+    <nav class="caja c2">
+        <ul>
+            <li>
+                <a href="#"><i class="bi bi-list" style="font-size: 1.5rem; color: white; text-decoration: none;"></i></a>
+                
+            </li>
+            <li class="li2">
+                <a href="#"><i class="bi bi-box-arrow-right" style="font-size: 1.5rem; color: white; text-decoration: none;"></i></a>
+                </li>
+        </ul>
+    </nav>
+
+    Contenido principal -->
+        <main class="caja c3">
+            <div class="container" style="background: #fff; border-radius: 10px;">@Body</div>
+            
+        </main>
+</section>

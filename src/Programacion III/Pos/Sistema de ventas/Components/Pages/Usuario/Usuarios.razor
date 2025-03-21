@@ -1,0 +1,83 @@
+﻿@page "/usuarios"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+@using POS.Api.Data;
+@using POS.Api.Modelos;
+
+<PageTitle>Usuarios</PageTitle>
+
+<div class="container">
+    <div class="row mt-3">
+        <h4 style="font-weight: bold;" class="col mt-3">Usuarios</h4>
+    <div class="text-end mb-3 mt-3 col">
+        <button style="all:unset;" @onclick="AgregarNuevo"><i class="bi bi-plus-square-fill" style="font-size: 30px; color:#055D5E;"></i></button>
+    </div>
+     
+    </div>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cédula</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in listausuarios)
+            {
+                <tr>
+                    <td>@usuario.Id</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Cedula</td>
+                    <td>
+                        <button style="all:unset;" @onclick="() => Editar(usuario.Id)" ><i class="bi bi-pencil-square" style="color:#fa8b0b; font-size: 20px;"></i></button>
+                        <button style="all:unset;" @onclick="() => Borrar(usuario.Id)" ><i class="bi bi-trash3-fill" style="color:red; font-size: 20px;"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+       
+</div>
+
+@code {
+    List<Users> listausuarios = new List<Users>();
+
+    private void AgregarNuevo()
+    {
+        Nav.NavigateTo("/usuarios/editar/0");
+    }
+
+    public void Editar(int id)
+    {
+        Nav.NavigateTo($"/usuarios/editar/{id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        listausuarios = ctx.UsuarioDb.ToList();
+    }
+
+    protected async Task Borrar(int id)
+    {
+        var usuario = await ctx.UsuarioDb.FindAsync(id);
+        if (usuario != null)
+        {
+            ctx.UsuarioDb.Remove(usuario);
+            listausuarios.Remove(usuario);
+
+            await ctx.SaveChangesAsync();
+            StateHasChanged();
+        }
+    }
+}
+
+<style>
+    .container h3 {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>

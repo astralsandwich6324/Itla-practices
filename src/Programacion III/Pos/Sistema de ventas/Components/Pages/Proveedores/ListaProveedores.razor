@@ -1,0 +1,91 @@
+﻿@page "/ListaProveedores"
+@inject NavigationManager Nav
+@inject Contexto ctx
+@using Microsoft.EntityFrameworkCore
+@using POS.Api.Data;
+@using POS.Api.Modelos;
+
+<PageTitle>Proveedores</PageTitle>
+
+<div class="container">
+<div class="row mt-3">
+<h4 class="col mt-3" style="font-weight: bold;">Proveedores</h4>
+    <div class="text-end mb-3 mt-3  col">
+        <button style="all:unset;" @onclick="AgregarNuevo"><i class="bi bi-plus-square-fill" style="font-size: 30px; color:#055D5E;"></i></button>
+    </div>
+</div>
+    
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var items in proveedor)
+            {
+                
+                <tr>
+                    <td>@items.Id</td>
+                    <td>@items.Name</td>
+                    <td>@items.FechaRegisro</td>
+                    <td>
+                        <button style="all:unset;" @onclick="() => Editar(items.Id)" ><i class="bi bi-pencil-square" style="color:#fa8b0b; font-size: 20px;"></i></button>
+                        <button style="all:unset;" @onclick="() => Borrar(items.Id)" ><i class="bi bi-trash3-fill" style="color:red; font-size: 20px;"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@code {
+    List<Proveedor> proveedor = new List<Proveedor>();
+
+    // Inventory inventario = new Inventory();
+
+    
+
+    private void AgregarNuevo()
+    {
+        Nav.NavigateTo("/proveedor/editar/0");
+    }
+
+    public void Editar(int id)
+    {
+        Nav.NavigateTo($"/proveedor/editar/{id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        proveedor = ctx.ProveedorsDB.ToList();
+    }
+
+    // void filtrar(){
+    //     inventario = productos.W
+    // }
+
+    protected async Task Borrar(int id)
+    {
+        var producto = await ctx.ProveedorsDB.FindAsync(id);
+        if (producto != null)
+        {
+            ctx.ProveedorsDB.Remove(producto);
+            proveedor.Remove(producto);
+
+            await ctx.SaveChangesAsync();
+            StateHasChanged();
+        }
+    }
+
+}
+
+
+<style>
+    
+</style>

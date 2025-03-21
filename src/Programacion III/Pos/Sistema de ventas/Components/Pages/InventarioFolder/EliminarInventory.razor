@@ -1,0 +1,36 @@
+﻿@page "/eliminarInvenatario/{Id:int}"
+@inject NavigationManager Nav
+@using System.Net.Http
+@inject HttpClient Http
+@using System.Net.Http.Json
+@using P.Final.Components.Modelos.Response
+
+<h3>Eliminar</h3>
+
+<p>Deseas eliminar el @Id</p>
+
+<div>
+    <button @onclick="Eliminar">Eliminar</button>
+    <button @onclick="Cancelar">Cancelar</button>
+</div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    public Response<object> oResponse = new Response<object>();
+
+    public string Url = "/api/Inventario";
+
+    private void Cancelar() => Nav.NavigateTo("/inventario");
+
+    protected async Task Eliminar()
+    {
+        var response = await Http.DeleteAsync(Url+"/"+Id);
+        oResponse = response.Content.ReadFromJsonAsync<Response<object>>().Result;
+        Nav.NavigateTo("/inventario");
+
+    }
+
+}
