@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P.Final", "P.Final.csproj", "{48286CFD-3445-40FE-9753-600F460C3190}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P.Final", "Sistema de ventas\P.Final.csproj", "{48286CFD-3445-40FE-9753-600F460C3190}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POS.Api", "..\POS.Api\POS.Api.csproj", "{6CED4EE5-15E3-456E-8328-73DBDA207981}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pos.Domain", "..\Pos.Domain\Pos.Domain.csproj", "{ABB19B12-DA76-4F25-83C9-91A8826E6491}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POS.Api", "POS.Api\POS.Api.csproj", "{6CED4EE5-15E3-456E-8328-73DBDA207981}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{6CED4EE5-15E3-456E-8328-73DBDA207981}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CED4EE5-15E3-456E-8328-73DBDA207981}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CED4EE5-15E3-456E-8328-73DBDA207981}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ABB19B12-DA76-4F25-83C9-91A8826E6491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABB19B12-DA76-4F25-83C9-91A8826E6491}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABB19B12-DA76-4F25-83C9-91A8826E6491}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABB19B12-DA76-4F25-83C9-91A8826E6491}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@ using POS.Api.Modelos.Request;
 namespace POS.Api.Controllers
 {
 
-    [Route("api/[Controller]")]
+    [Route("api/[Controller]")] 
     [ApiController]
     public class InventarioController : Controller
     {
