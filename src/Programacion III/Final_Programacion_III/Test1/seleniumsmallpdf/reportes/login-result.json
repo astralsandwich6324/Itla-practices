@@ -1,0 +1,103 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-04-19T22:21:24.517Z",
+    "end": "2025-04-19T22:23:09.271Z",
+    "duration": 104754,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "5d1fae14-3b5d-4fe8-8052-d4fb07172952",
+      "title": "",
+      "fullFile": "C:\\ProyectoFinalProgIII\\Final_Programacion_III\\Test1\\seleniumsmallpdf\\test\\login.spec.js",
+      "file": "\\test\\login.spec.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "42d4ea21-9dd6-4aa5-b4dd-44466b9cf782",
+          "title": "Login",
+          "fullFile": "C:\\ProyectoFinalProgIII\\Final_Programacion_III\\Test1\\seleniumsmallpdf\\test\\login.spec.js",
+          "file": "\\test\\login.spec.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Login with standar_user credentials",
+              "fullTitle": "Login Login with standar_user credentials",
+              "timedOut": false,
+              "duration": 104685,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "let driver = new Builder().forBrowser(Browser.EDGE).build();\n//‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️⚠️⚠️⚠️⚠️\n//Una vez que se haga dotnet run, colocar la direccion aqui, si es la misma dejar asi, si no\n//reemplazar http://localhost:5178/ por la direccion de su ordenador y listo.\n//lo mismo si en vez de hacer dotnet un corre la solucion en visual studio\n\n//await tomarCaptura(driver, '01-pagina-principal');\nasync function accepAlert() {\n    await driver.wait(until.alertIsPresent(), 5000);\n    let alert = await driver.switchTo().alert();\n    await alert.accept();\n}\n\nawait driver.get('http://localhost:5178/')\nawait driver.sleep(3000);\n//Se redirige a login\nawait driver.findElement(By.id('username')).sendKeys('jose');\nawait driver.findElement(By.id('password')).sendKeys('1234');\nawait driver.findElement(By.id('botoniniciar')).click();\nawait driver.sleep(2000);\naccepAlert();\nawait driver.sleep(5000);\n//Pagina prealerta\n//primer registro 1\nawait driver.findElement(By.id('crearpre_alerta')).click();\nawait driver.sleep(5000);\nawait driver.findElement(By.id('transportista')).sendKeys('USPS');\nawait driver.findElement(By.id('tracking')).sendKeys('00088844562452');\n//await driver.findElement(By.id('entrega_estimada')).sendKeys('2025-04-25');\nawait driver.executeScript(`\n    document.getElementById('entrega_estimada').value = '2025-04-25';\n`);\nawait driver.findElement(By.id('proveedor')).sendKeys('Amazon');\nawait driver.findElement(By.id('valor')).sendKeys('120');\nawait driver.findElement(By.id('contenido')).sendKeys('Ropa deportiva');\n//boton de guardar los datos en le formulario\n\nawait driver.findElement(By.id('guardar_form')).click();\nawait driver.sleep(3000);\naccepAlert();\nawait driver.sleep(2000);\nawait driver.findElement(By.id('cancelar_boton')).click();\nawait driver.sleep(2000);\nawait driver.findElement(By.id('no45456')).click();\nawait driver.sleep(2000);\nawait driver.findElement(By.id('cancelar_boton')).click();\nawait driver.sleep(2000);\nawait driver.findElement(By.id('si45456')).click();\nawait driver.sleep(5000);\n//Editar Registro\nconst botonesEditar = await driver.findElements(By.css('.btn.btn-warning'));\nawait botonesEditar[botonesEditar.length - 1].click();\n//await driver.findElement(By.id(`boton_editar_${3}`)).click();\nawait driver.sleep(6000);\nawait driver.findElement(By.id('transportista')).clear();\nawait driver.findElement(By.id('transportista')).sendKeys('UPS');\nawait driver.findElement(By.id('proveedor')).clear();\nawait driver.findElement(By.id('proveedor')).sendKeys('Aliexpress');\nawait driver.findElement(By.id('guardar_form')).click();\nawait driver.sleep(3000);\naccepAlert();\nawait driver.sleep(3000);\n//y cuando se guarda el formulario\nawait driver.findElement(By.id('cancelar_boton')).click();\nawait driver.sleep(2000);\nawait driver.findElement(By.id('si45456')).click();\nawait driver.sleep(6000);\n//crear devuevo\n//segundo registro 2\nawait driver.findElement(By.id('crearpre_alerta')).click();\nawait driver.sleep(5000);\nawait driver.findElement(By.id('transportista')).sendKeys('UPS');\nawait driver.findElement(By.id('tracking')).sendKeys('008578541545');\n//await driver.findElement(By.id('entrega_estimada')).sendKeys('2025-04-22');\nawait driver.executeScript(`\n    document.getElementById('entrega_estimada').value = '2025-04-22';\n`);\nawait driver.findElement(By.id('proveedor')).sendKeys('Ebay');\nawait driver.findElement(By.id('valor')).sendKeys('800');\nawait driver.findElement(By.id('contenido')).sendKeys('Iphone 16');\nawait driver.findElement(By.id('guardar_form')).click();\nawait driver.sleep(2000);\naccepAlert();\nawait driver.sleep(3000);\nawait driver.findElement(By.id('cancelar_boton')).click();\nawait driver.sleep(2000);\nawait driver.findElement(By.id('si45456')).click();\nawait driver.sleep(5000);\n//Borrar\n//tercer registro 3\nawait driver.findElement(By.id('crearpre_alerta')).click();\nawait driver.sleep(5000);\nawait driver.findElement(By.id('transportista')).sendKeys('Otros');\nawait driver.findElement(By.id('tracking')).sendKeys('989786545343');\n// await driver.findElement(By.id('entrega_estimada')).sendKeys('2025-04-19');\nawait driver.executeScript(`\n    document.getElementById('entrega_estimada').value = '2025-04-19';\n`);\nawait driver.findElement(By.id('proveedor')).sendKeys('Temu');\nawait driver.findElement(By.id('valor')).sendKeys('100');\nawait driver.findElement(By.id('contenido')).sendKeys('Mouse');\nawait driver.findElement(By.id('guardar_form')).click();\nawait driver.sleep(2000);\naccepAlert();\nawait driver.sleep(3000);\nawait driver.findElement(By.id('cancelar_boton')).click();\nawait driver.sleep(2000);\nawait driver.findElement(By.id('si45456')).click();\nawait driver.sleep(5000);\n\nconst botonesBorrar = await driver.findElements(By.css('.btn.btn-danger'));\nawait botonesBorrar[botonesEditar.length - 1].click();\n//await driver.findElement(By.id(`boton_eliminar_${5}`)).click();\nawait driver.sleep(2000);\n\n\n\n\n/*await driver.findElement(By.id('crearcuenta')).click();\nawait driver.sleep(4000);\nawait driver.findElement(By.id('username')).sendKeys('kelyn');\nawait driver.findElement(By.id('mail')).sendKeys('ktejada@itla.edu.do');\nawait driver.findElement(By.id('password')).sendKeys('1234');\nawait driver.sleep(3000);\nawait driver.findElement(By.id('botoncrearcuenta')).click();\n//await driver.sleep(3000);\nawait driver.wait(until.alertIsPresent(), 5000);\nlet alert = await driver.switchTo().alert();\nawait alert.accept();\nawait driver.sleep(6000);*/\nawait driver.quit();",
+              "err": {},
+              "uuid": "f24d57f9-fdfd-49b4-ba60-f5e8844a9691",
+              "parentUUID": "42d4ea21-9dd6-4aa5-b4dd-44466b9cf782",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f24d57f9-fdfd-49b4-ba60-f5e8844a9691"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 104685,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 0
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.1.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "login-result",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "reportes",
+        "reportFilename": "login-result"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

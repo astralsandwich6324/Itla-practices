@@ -1,0 +1,98 @@
+﻿@layout LoginLayout
+@page "/singIn"
+@using Courier.Web.Components.Data
+@using Microsoft.EntityFrameworkCore
+@inject DataContext Dc
+@inject IJSRuntime Jsx
+@inject NavigationManager Navigation
+
+<PageTitle>Sing in</PageTitle>
+
+<div class="background-container">
+
+
+    <EditForm OnValidSubmit="Guardarlogin" style="
+
+    position:absolute;
+    top:100px;
+    left:400px;
+    margin-top: 10px;
+    padding: 20px 15px 15px 15px;
+    width: 540px;
+    height: auto;
+    box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    background-color: #fff;
+
+    " Model="@login">
+
+                <h3>Crear Cuenta</h3>
+               
+
+                <div class="form-group mt-3">
+                    <label for="username">Usuario</label>
+                    <InputText class="form-control" id="username" @bind-Value="login.Usuario" />
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="mail">Correo</label>
+                    <InputText class="form-control" id="mail" @bind-Value="login.Mail" />
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="password">Contraseña</label>
+                    <InputText class="form-control" id="password" type="password" @bind-Value="login.Contrasena" />
+                </div>
+
+                <div class="form-group mt-3">
+                    <button class="btn btn-success" id="botoncrearcuenta" type="submit">Crear Cuenta</button>
+                </div>
+
+            </EditForm>
+            
+       
+    
+    
+</div>
+
+@code {
+
+    [Parameter] public int Id { get; set; }
+
+    ClaseLogin login = new ClaseLogin();
+
+    private async Task Guardarlogin()
+    {
+        try{
+            var existeUsuario = await Dc.LoginDB
+            .AnyAsync(u => u.Usuario == login.Usuario);
+
+        if (existeUsuario)
+        {
+            await Jsx.InvokeVoidAsync("alert", "El usuario ya existe. Por favor, elige otro nombre.");
+        }
+        else
+        {
+            if (login.Id > 0)
+            {
+                Dc.LoginDB.Update(login);
+            }
+            else
+            {
+                Dc.LoginDB.Add(login);
+            }
+
+            await Dc.SaveChangesAsync();
+            await Jsx.InvokeVoidAsync("alert", "Datos Guardados");
+            Navigation.NavigateTo("/login");
+        }
+        }catch (Exception ex){
+            var mensaje = ex.InnerException?.Message ?? ex.Message;
+            await Jsx.InvokeVoidAsync("alert", $"Error al guardar: {mensaje}");
+        }
+        
+        
+
+    }
+
+}

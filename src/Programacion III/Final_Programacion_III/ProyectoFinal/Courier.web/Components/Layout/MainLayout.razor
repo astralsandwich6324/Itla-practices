@@ -1,0 +1,126 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+@inject NavigationManager nav
+
+
+@if (SessionService.EstaLogeado)
+{
+    <div class="page">
+
+        <div class="c1" id="Midiv">
+
+            <span onclick="Menu()" class="icon-menu" id="Open">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                    <path d="M460-320v-320L300-480l160 160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm440-80h120v-560H640v560Zm-80 0v-560H200v560h360Zm80 0h120-120Z" />
+                </svg>
+            </span>
+
+            <span class="icon-menu" id="Close" @onclick="Menu">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                    <path d="M500-640v320l160-160-160-160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm120-80v-560H200v560h120Zm80 0h360v-560H400v560Zm-80 0H200h120Z" />
+                </svg>
+            </span>
+            <nav>
+
+                <div class="sidebar-header">
+
+                    <h2 class="h2-sidebar-header"> FastFly Courier</h2>
+
+                </div>
+                <ul class="sidebar-ul">
+
+                    <li class="sidebar-li">
+                        <a href="pre_alerta" class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" /></svg>
+                            <span class="text-menu">Pre-Alerta </span>
+                        </a>
+                    </li>
+                    <li class="sidebar-li">
+                        <a href="mispedidos" class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-183v-274L200-596v274l240 139Zm80 0 240-139v-274L520-457v274Zm-80 92L160-252q-19-11-29.5-29T120-321v-318q0-22 10.5-40t29.5-29l280-161q19-11 40-11t40 11l280 161q19 11 29.5 29t10.5 40v318q0 22-10.5 40T800-252L520-91q-19 11-40 11t-40-11Zm200-528 77-44-237-137-78 45 238 136Zm-160 93 78-45-237-137-78 45 237 137Z" /></svg>
+                            <span class="text-menu">Mis pedidos</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-li">
+                        <a href="portada" class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M360-390q-21 0-35.5-14.5T310-440q0-21 14.5-35.5T360-490q21 0 35.5 14.5T410-440q0 21-14.5 35.5T360-390Zm240 0q-21 0-35.5-14.5T550-440q0-21 14.5-35.5T600-490q21 0 35.5 14.5T650-440q0 21-14.5 35.5T600-390ZM480-160q134 0 227-93t93-227q0-24-3-46.5T786-570q-21 5-42 7.5t-44 2.5q-91 0-172-39T390-708q-32 78-91.5 135.5T160-486v6q0 134 93 227t227 93Zm0 80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-54-715q42 70 114 112.5T700-640q14 0 27-1.5t27-3.5q-42-70-114-112.5T480-800q-14 0-27 1.5t-27 3.5ZM177-581q51-29 89-75t57-103q-51 29-89 75t-57 103Zm249-214Zm-103 36Z" /></svg>
+                            <span class="text-menu">Portada</span>
+                        </a>
+                    </li>
+
+
+
+                </ul>
+
+                <div class="account" id="accountId" @onclick="Login">
+
+                    <script>
+
+                    </script>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                         fill="#e3e3e3">
+                        <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z" />
+                    </svg>
+                    <span id="accountspan">Iniciar Secion</span>
+
+                </div>
+
+
+            </nav>
+        </div>
+
+        <main class="body-con-sidebar">
+            @Body
+        </main>
+
+        <ul class="ul-account" id="ulAccountId" hidden>
+            <li class="li-account" id="gotologinpage" @onclick="GoToLoginPage">Cerrar Seccion</li>
+            <li class="li-account">Cambiar Cuenta</li>
+        </ul>
+    </div>
+}
+
+@code{
+
+    void GoToLoginPage()
+    {
+        nav.NavigateTo("/login");
+    }
+
+    public async Task Menu()
+    {
+        // await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/layoutjs.js");
+        await JSRuntime.InvokeVoidAsync("Menu");
+    }
+
+    public async Task Login()
+    {
+        // await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/layoutjs.js");
+        await JSRuntime.InvokeVoidAsync("login");
+    }
+
+    // protected override void OnInitialized()
+    // {
+    //     if (!SessionService.EstaLogeado && !nav.Uri.EndsWith("/login"))
+    //     {
+    //         nav.NavigateTo("/login", forceLoad: true);
+    //     }
+    // }
+
+    private bool yaChequeado = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !yaChequeado)
+        {
+            yaChequeado = true;
+
+            if (!SessionService.EstaLogeado && !nav.Uri.EndsWith("/login"))
+            {
+                nav.NavigateTo("/login", forceLoad: true);
+            }
+        }
+    }
+
+
+}

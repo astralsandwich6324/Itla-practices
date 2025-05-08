@@ -1,0 +1,20 @@
+﻿.contenedor-pagina {
+    background: #131313;
+    min-height: 100vh;
+}
+
+.position-table {
+    position: absolute;
+    top: 100px;
+}
+
+.mis-pedidos {
+    left: 20px;
+    top: 30px;
+    position: absolute;
+}
+
+    .mis-pedidos span {
+        color: #cfcfcf;
+    }
+

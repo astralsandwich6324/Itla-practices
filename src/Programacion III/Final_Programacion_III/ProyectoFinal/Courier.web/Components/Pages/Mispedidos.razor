@@ -1,0 +1,88 @@
+﻿@page "/mispedidos"
+@inject NavigationManager Nav
+@using Courier.Web.Components.Data
+@inject DataContext DBctx
+@inject IJSRuntime Jsx
+
+
+<div class="contenedor-pagina">
+    
+    <div class="mis-pedidos">
+       
+        <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3"><path d="M450-154v-309L180-619v309l270 156Zm60 0 270-156v-310L510-463v309Zm-60 69L150-258q-14-8-22-22t-8-30v-340q0-16 8-30t22-22l300-173q14-8 30-8t30 8l300 173q14 8 22 22t8 30v340q0 16-8 30t-22 22L510-85q-14 8-30 8t-30-8Zm194-525 102-59-266-154-102 59 266 154Zm-164 96 104-61-267-154-104 60 267 155Z" /></svg>
+<span>Mis pedidos</span>
+    </div>
+
+    <table class="table table-dark position-table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Retenido</th>
+                <th scope="col">Numero</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Destino</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Contenido</th>
+                <th scope="col">Peso</th>
+                <th scope="col">Volumen</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Lista_paquetes)
+            {
+                <tr>
+                    <th scope="row">@item.HistoryId</th>
+                    <td>@item.Estado</td>
+                    <td>@if (item.Retenido == false){
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Z" /></svg>
+                        }else{
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m424-312 282-282-56-56-226 226-114-114-56 56 170 170ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" /></svg>
+                        }
+                    </td>
+
+                    <td>@item.Numero</td>
+                    <td>@item.Fecha</td>
+                    <td>@item.Destino</td>
+                    <td>@item.Proveedor</td>
+                    <td>@item.Contenido</td>
+                    <td>@item.Peso</td>
+                    <td>@item.Volumen</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+
+@code {
+    List<Paquetes> Lista_paquetes = new List<Paquetes>();
+
+    // private void AgregarNuevo()
+    // {
+    //     Nav.NavigateTo("registrovivencias");
+    // }
+
+
+    
+
+    protected override void OnInitialized()
+    {
+        if (!SessionService.EstaLogeado)
+        {
+            Nav.NavigateTo("/login", forceLoad: true);
+        }else{
+            Lista_paquetes = DBctx.PaquetesDB
+        // .Where(v => v.UsuarioId == SessionService.UsuarioActualId)
+        .ToList();
+        }
+        
+
+    }
+
+    
+
+}

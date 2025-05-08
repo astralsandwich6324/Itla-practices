@@ -1,0 +1,31 @@
+﻿
+.dialogo {
+    background: #131313;
+    border: none;
+    width: 35%;
+    height: 150px;
+    padding: 20px;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 100px;
+    left:400px;
+}
+
+    .dialogo p {
+        color: #cfcfcf;
+    }
+
+
+.pre-alerta {
+    position: absolute;
+    left: 20px;
+    top: 30px;
+}
+
+.pre-alerta span {
+    color: #cfcfcf;
+}
+
+body {
+    background: #131313;
+}
